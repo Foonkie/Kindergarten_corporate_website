@@ -14,12 +14,11 @@
     <button type="submit">Создать новость</button>
 </form>
 
-<div th:each="piece:${news.content}">
-    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>
-    <div th:if="${show_news.getId()}">
-    ${show_news.getBody()}
+<div th:if="${news.content}" th:each="piece:${news.content}">
+    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a><br>
+    <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>
 </div>
-</div>
+
 </body>
 </head>
 </html>

@@ -27,26 +27,23 @@ public class NewsController {
 
    private final NewsService newsService;
     @GetMapping
-    public String admin(Model model, Pageable pageable){
+    public String admin(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable){
         Page<NewsReadDto> page = newsService.findAll(pageable);
         model.addAttribute("news", PageResponse.of(page));
         return "user/admin";
     }
 
+
     @GetMapping("/news/{id}")
-    public String showNews(Model model, @PathVariable Long id){
-        model.addAttribute(id);
+    public String showNews(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
         newsService.findById(id)
-        .map(news->model.addAttribute("show_news", news));
-        return "user/admin";
+        .map(news->redirectAttributes.addFlashAttribute("show_news", news));
+        return "redirect:/admin";
     }
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public String create(@ModelAttribute @Validated NewsCreateEditDto news,
-                         BindingResult bindingResult) {
-
+    public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
         newsService.create(news);
-        return "user/admin" ;
+        return "redirect:/admin";
     }
 
 
