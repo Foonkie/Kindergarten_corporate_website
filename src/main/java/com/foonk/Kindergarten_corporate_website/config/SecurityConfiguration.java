@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             .deleteCookies("JSESSIONID"))
                     .formLogin(login -> login
                             .loginPage("/login")
-                            .defaultSuccessUrl("/users"));
+                            .defaultSuccessUrl("/default"));
         }
     @Bean
     public PasswordEncoder passwordEncoder(){

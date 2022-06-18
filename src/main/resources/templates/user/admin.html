@@ -18,7 +18,17 @@
     <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a><br>
     <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>
 </div>
-
+<form action="/admin" method="get">
+    <div>
+        <label for="page">Page:
+            <input id="page" type="number" name="page" th:value="${news.metadata.page}">
+        </label>
+        <label for="size">Size:
+            <input id="size" type="number" name="size" th:value="${news.metadata.size}">
+        </label>
+    </div>
+    <button type="submit">Применить</button>
+</form>
 </body>
 </head>
 </html>

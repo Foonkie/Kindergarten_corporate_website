@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+<body>
+<span>Документы</span>
+<div th:if="${!ktp.isEmpty()}">
+    <span>KTP:</span>
+<div th:each="document: ${ktp}"  >
+    <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">KTP</a>
+</div>
+</div>
+<div th:if="${!work_projects.isEmpty()}">
+    <span>WORK_PROJECTS:</span>
+    <div th:each="document: ${work_projects}" >
+        <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">Work projects</a>
+    </div>
+</div>
+<div th:if="${!schedule.isEmpty()}">
+    <span>SCHEDULE:</span>
+    <div th:each="document: ${schedule}">
+        <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">Schedule</a>
+    </div>
+</div>
+<div th:if="${!event.isEmpty()}">
+    <span>EVENT:</span>
+    <div th:each="document: ${event}">
+        <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">Event</a>
+    </div>
+</div>
+<div th:if="${!instruction.isEmpty()}">
+    <span>INSTRUCTION:</span>
+    <div th:each="document: ${instruction}">
+        <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">Instruction</a>
+    </div>
+</div>
+<div th:if="${!general_works.isEmpty()}">
+    <span>GENERAL_WORKS:</span>
+    <div th:each="document: ${general_works}">
+        <a th:href="@{'/documents/' + ${document.id}}" th:text="${document.id}">General works</a>
+    </div>
+</div>
+</label>
+</body>
+</html>
