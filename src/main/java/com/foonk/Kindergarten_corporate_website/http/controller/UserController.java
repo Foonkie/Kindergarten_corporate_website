@@ -27,8 +27,6 @@ public class UserController {
 
     private final UserService userService;
 
-
-
     @GetMapping
     public String findAll(Model model, UserFilter userFilter, Pageable pageable) {
         Page<UserReadDto> page = userService.findAll(userFilter, pageable);

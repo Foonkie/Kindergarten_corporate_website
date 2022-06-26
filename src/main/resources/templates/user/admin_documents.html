@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+        <title>Админ-Документы</title>
+    </head>
+<body>
+<span>Добавить документ</span>
+<form th:action="@{/admin/documents/create}" enctype="multipart/form-data" method="post">
+      <label for="document"> Тип:
+<select id="document" name="kind">
+    <option value="0">select option</option>
+    <option th:each="kind : ${kinds}"
+            th:value="${kind}"
+            th:text="${kind}">Kind</option>
+</select>
+      </label>
+    <label for="doc">Документ:
+        <input id="doc" type="file" name="document">
+    </label><br>
+<button  type="submit">Добавить
+</button>
+</form>
+<form th:action="@{/admin/documents/delete}" method="post">
+<span>Документы</span>
+<div th:if="${!ktp.isEmpty()}">
+    <span>KTP:</span>
+    <div th:each="document: ${ktp}"  >
+        <a th:href="@{'/api/v1/documents/KTP/' + ${document.id}}" th:text="${document.document}">KTP</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<div th:if="${!work_projects.isEmpty()}">
+    <span>WORK_PROJECTS:</span>
+    <div th:each="document: ${work_projects}" >
+        <a th:href="@{'/api/v1/documents/WORK_PROJECTS/' + ${document.id}}" th:text="${document.document}">Work projects</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<div th:if="${!schedule.isEmpty()}">
+    <span>SCHEDULE:</span>
+    <div th:each="document: ${schedule}">
+        <a th:href="@{'/api/v1/documents/SCHEDULE/' + ${document.id}}" th:text="${document.document}">Schedule</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<div th:if="${!event.isEmpty()}">
+    <span>EVENT:</span>
+    <div th:each="document: ${event}">
+        <a th:href="@{'/api/v1/documents/EVENT/' + ${document.id}}" th:text="${document.document}">Event</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<div th:if="${!instruction.isEmpty()}">
+    <span>INSTRUCTION:</span>
+    <div th:each="document: ${instruction}">
+        <a th:href="@{'/api/v1/documents/INSTRUCTION/' + ${document.id}}" th:text="${document.document}">Instruction</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<div th:if="${!general_works.isEmpty()}">
+    <span>GENERAL_WORKS:</span>
+    <div th:each="document: ${general_works}">
+        <a th:href="@{'/api/v1/documents/GENERAL_WORKS/' + ${document.id}}" th:text="${document.id}">General works</a>
+        <input type="radio" name="idDocument" th:value="${document.id}">
+    </div>
+</div>
+<label>
+    <button type="submit">Удалить</button>
+</label>
+</form>
+</body>
+</html>

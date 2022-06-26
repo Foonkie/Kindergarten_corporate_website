@@ -1,9 +1,7 @@
 package com.foonk.Kindergarten_corporate_website.http.controller;
 
-import com.foonk.Kindergarten_corporate_website.dto.NewsCreateEditDto;
-import com.foonk.Kindergarten_corporate_website.dto.NewsReadDto;
-import com.foonk.Kindergarten_corporate_website.dto.PageResponse;
-import com.foonk.Kindergarten_corporate_website.dto.UserCreateEditDto;
+import com.foonk.Kindergarten_corporate_website.database.Kind;
+import com.foonk.Kindergarten_corporate_website.dto.*;
 import com.foonk.Kindergarten_corporate_website.service.DocumentService;
 import com.foonk.Kindergarten_corporate_website.service.NewsService;
 import liquibase.pro.packaged.C;
@@ -29,6 +27,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 
 @Slf4j
@@ -61,9 +65,28 @@ public class NewsController {
         return "user/admin";
     }
     @GetMapping("/first_page")
-    public String admin_first(){
+    public String admin_first()
+    {
         return "user/admin_first_page";
     }
+
+    @GetMapping("/documents")
+    public String admin_documents(Model model){
+        Kind[] values = Kind.values();
+        List<Kind> kind_kinds = Arrays.asList(values);
+        List<String> kinds = kind_kinds.stream().map(kind_kind -> kind_kind.toString()).collect(toList());
+        model.addAttribute("kinds", kinds);
+        model.addAttribute("ktp", documentService.findAllDocumentByKind("KTP"));
+        model.addAttribute("work_projects", documentService.findAllDocumentByKind("WORK_PROJECTS"));
+        model.addAttribute("schedule", documentService.findAllDocumentByKind("SCHEDULE"));
+        model.addAttribute("event", documentService.findAllDocumentByKind("EVENT"));
+        model.addAttribute("instruction", documentService.findAllDocumentByKind("INSTRUCTION"));
+        model.addAttribute("general_works", documentService.findAllDocumentByKind("GENERAL_WORKS"));
+        return "user/admin_documents";
+    }
+
+
+
     @GetMapping("/russian")
     public String findAllByKind(Model model) {
         model.addAttribute("ktp", documentService.findAllDocumentByKind("KTP"));
@@ -80,11 +103,31 @@ public class NewsController {
         .map(news->redirectAttributes.addFlashAttribute("show_news", news));
         return "redirect:/admin";
     }
+    @GetMapping("/documents/{kind}/{id}")
+    public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind){
+        documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(),kind));
+        return "redirect:/admin/documents";
+    }
     @PostMapping
     public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
         newsService.create(news);
         return "redirect:/admin";
     }
+
+    @PostMapping("/documents/create")
+    public String admin_documents_create(Model model, DocumentCreateEditDto dto)
+    {
+        documentService.create(dto);
+        return "redirect:/admin/documents";
+    }
+
+    @PostMapping("/documents/delete")
+    public String admin_documents_delete(Model model, Long idDocument)
+    {
+        documentService.delete(idDocument);
+        return "redirect:/admin/documents";
+    }
+
 
 
 

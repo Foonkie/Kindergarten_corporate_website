@@ -5,9 +5,9 @@ import lombok.Value;
 
 @Value
 public class DocumentReadDto {
-     Kind kind;
+    private Kind kind;
 
-     String document;
+    private String document;
 
-     Long id;
+    private Long id;
 }
