@@ -43,7 +43,11 @@ public class NewsController {
    private final DocumentService documentService;
    private final NewsService newsService;
     @GetMapping
-    public String admin(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession ) {
+    public String admin(){
+        return "user/admin";
+    }
+    @GetMapping("/news")
+    public String news(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession ) {
         if (!(pageable.getPageSize()==20 && pageable.getPageNumber()==0)){
         httpSession.setAttribute("pageable_after", pageable);
 
@@ -61,8 +65,7 @@ public class NewsController {
                 model.addAttribute("news", PageResponse.of(page));
             }
         }
-
-        return "user/admin";
+        return "user/admin_news";
     }
     @GetMapping("/first_page")
     public String admin_first()
@@ -101,17 +104,17 @@ public class NewsController {
     public String showNews(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
         newsService.findById(id)
         .map(news->redirectAttributes.addFlashAttribute("show_news", news));
-        return "redirect:/admin";
+        return "redirect:/admin/news";
     }
     @GetMapping("/documents/{kind}/{id}")
     public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind){
         documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(),kind));
         return "redirect:/admin/documents";
     }
-    @PostMapping
+    @PostMapping("/news")
     public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
         newsService.create(news);
-        return "redirect:/admin";
+        return "redirect:/admin/news";
     }
 
     @PostMapping("/documents/create")
