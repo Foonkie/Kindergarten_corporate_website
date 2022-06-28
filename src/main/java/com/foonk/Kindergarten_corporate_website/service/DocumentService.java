@@ -54,7 +54,7 @@ public class DocumentService {
     }
     @Transactional
     @SneakyThrows
-    private void uploadDocument(MultipartFile document, String kind) {
+    public void uploadDocument(MultipartFile document, String kind) {
         if (!document.isEmpty()) {
             upload(document.getOriginalFilename(), document.getInputStream(), kind);
         }

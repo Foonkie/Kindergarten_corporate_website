@@ -131,6 +131,13 @@ public class NewsController {
         return "redirect:/admin/documents";
     }
 
+    @PostMapping("/news/delete")
+    public String admin_news_delete(Model model, Long idNews)
+    {
+        documentService.delete(idNews);
+        return "redirect:/admin/news";
+    }
+
 
 
 

@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'org.springframework.data:spring-data-envers'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'com.querydsl:querydsl-apt'

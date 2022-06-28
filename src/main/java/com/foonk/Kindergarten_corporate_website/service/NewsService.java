@@ -45,4 +45,15 @@ public class NewsService {
         return newsRepository.findById(id)
                 .map((newsReadMapper::map));
     }
+
+    @Transactional
+    public boolean delete(Long id) {
+        return newsRepository.findById(id)
+                .map(entity -> {
+                    newsRepository.delete(entity);
+                    newsRepository.flush();
+                    return true;
+                })
+                .orElse(false);
+    }
 }
