@@ -6,30 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "tasks")
+@Table(name = "subtasks")
 @Entity
-public class Task {
+public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
-    private String task;
-
-    @OneToMany(mappedBy = "task")
-    private List<SubTask> subTasks;
-    private LocalDateTime endTime;
+    private String subtask;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "task_id")
+    private Task task;
 }

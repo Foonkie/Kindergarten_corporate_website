@@ -13,11 +13,11 @@
     </label><br>
     <button type="submit">Создать новость</button>
 </form>
-<form method="post" action="@{/admin/news/delete}">
+<form method="post" action="/admin/news/delete">
 <div th:if="${news.content}" th:each="piece:${news.content}">
-    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a><br>
+    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>
+    <input type="radio" name="idNews" th:value="${piece.id}"> <br>
     <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>
-    <input type="radio" name="idNews" th:value="${piece.id}">
 </div>
     <label>
         <button type="submit">Удалить</button>

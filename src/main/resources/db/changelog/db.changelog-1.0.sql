@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS tasks
     id BIGSERIAL PRIMARY KEY ,
     type VARCHAR(32) NOT NULL UNIQUE,
     task VARCHAR(64) NOT NULL UNIQUE,
+    end_time TIMESTAMP,
     created_at TIMESTAMP,
     user_id BIGINT REFERENCES users(id)
 );
