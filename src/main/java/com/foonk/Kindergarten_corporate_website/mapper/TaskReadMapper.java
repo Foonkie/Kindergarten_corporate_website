@@ -8,4 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TaskReadMapper implements Mapper<Task, TaskReadDto>{
+    public TaskReadDto map(Task task){
+        return new TaskReadDto(task.getId(),task.getSubTask(),task.getType(),task.getTask_header(),task.getEndTime(),task.getUser());
+    }
 }

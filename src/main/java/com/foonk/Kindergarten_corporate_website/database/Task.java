@@ -24,10 +24,10 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    private String task;
+    private String task_header;
 
     @OneToMany(mappedBy = "task")
-    private List<SubTask> subTasks;
+    private List<SubTask> subTask;
     private LocalDateTime endTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <body>
+<!--<form action="/admin/tasks" method="post">-->
+<!--    <label for="header">Заголовок:-->
+<!--        <input id="header" type="text" name="header">-->
+<!--    </label><br>-->
+<!--    <label for="body">Текст:-->
+<!--        <input id="body" type="text" name="body">-->
+<!--    </label><br>-->
+<!--    <button type="submit">Создать новость</button>-->
+<!--</form>-->
+<!--<form method="post" action="/admin/news/delete">-->
+<!--<div th:if="${news.content}" th:each="piece:${news.content}">-->
+<!--    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>-->
+<!--    <input type="radio" name="idNews" th:value="${piece.id}"> <br>-->
+<!--    <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>-->
+<!--</div>-->
+<!--    <label>-->
+<!--        <button type="submit">Удалить</button>-->
+<!--    </label>-->
+<!--</form>-->
+<div th:if="${users}" th:each="user:${users}">
+    <a th:href="@{'/admin/tasks/'+${user.id}}" th:text="|${user.firstname}  ${user.lastname}|">Tasks</a>
+    </div>
+
+
+</body>
+</head>
+</html>

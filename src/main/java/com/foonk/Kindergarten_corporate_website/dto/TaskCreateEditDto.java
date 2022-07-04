@@ -21,7 +21,7 @@ public class TaskCreateEditDto {
     private Type type;
 
     @NotBlank(groups = CreateAction.class)
-    private String task;
+    private String task_header;
 
     @DateTimeFormat
     private LocalDateTime endTime;
