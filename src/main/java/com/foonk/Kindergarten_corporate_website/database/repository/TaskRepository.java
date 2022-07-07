@@ -10,6 +10,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Page<TaskReadDto> findAllByUser_Id(Long id, Pageable pageable);
-
+    Page<Task> findAllByUser_Id(Long id, Pageable pageable);
 }

@@ -4,32 +4,55 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <body>
-<!--<form action="/admin/tasks" method="post">-->
-<!--    <label for="header">Заголовок:-->
-<!--        <input id="header" type="text" name="header">-->
-<!--    </label><br>-->
-<!--    <label for="body">Текст:-->
-<!--        <input id="body" type="text" name="body">-->
-<!--    </label><br>-->
-<!--    <button type="submit">Создать новость</button>-->
-<!--</form>-->
-<!--<form method="post" action="/admin/news/delete">-->
-<!--<div th:if="${news.content}" th:each="piece:${news.content}">-->
-<!--    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>-->
-<!--    <input type="radio" name="idNews" th:value="${piece.id}"> <br>-->
-<!--    <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>-->
-<!--</div>-->
-<!--    <label>-->
-<!--        <button type="submit">Удалить</button>-->
-<!--    </label>-->
-<!--</form>-->
-<div th:if="${allByUser_id}" th:each="task:${allByUser_id}">
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/create'}" th:text="Создать">Create</a>
-    </div>
 
+<div th:if="${allByUser_id}" th:each="task:${allByUser_id}">
+    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>&emsp;
+    <a th:href="@{'/admin/tasks/'+${id}+'/create'}" th:text="Создать">Create</a>
+    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
+    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
+<br>
+    </div>
+<div th:if="${#servletContext.contextPath.toString().contains('create')}" method="post">
+    <form th:action="@{'/admin/tasks/'+${id}+'/create'}">
+
+        <label for="task_header">Name for task:
+            <input id="task_header" type="text" name="task_header">
+        </label><br>
+
+        <div th:each="typeFrom:${types}">
+           <input type="checkbox" name="type" th:value="${typeFrom}">
+        </div>
+        <label for="task_header">Name for task:
+            <input id="task_header" type="text" name="task_header">
+        </label><br>
+
+
+        <div th:if="${subtasks.isEmpty}">
+            <input id="subTask" type="text" name="subTask">
+<!--            @Enumerated(EnumType.STRING)-->
+<!--            private Type type;-->
+
+<!--            private String task_header;-->
+
+<!--            @OneToMany(mappedBy = "task")-->
+<!--            private List<SubTask> subTask;-->
+<!--            private LocalDateTime endTime;-->
+<!--            @ManyToOne(fetch = FetchType.LAZY)-->
+<!--            @JoinColumn(name = "user_id")-->
+<!--            private User user;-->
+        </div>
+        <div th:unless="${subtasks.isEmpty}">
+            <div th:each="subtask:${subtasks}">
+                <div th:text='|${subtask.id} . ${subtask.subtask}|'>subTask</div>
+            </div>
+            <input id="subTask" type="text" name="subTask">
+        </div>
+
+
+    </form>
+
+
+</div>
 
 </body>
 </head>
