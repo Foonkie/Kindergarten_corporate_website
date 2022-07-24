@@ -11,6 +11,6 @@ import javax.validation.constraints.NotBlank;
         @NotBlank
         private String subtask;
         @NotBlank
-        private Task task;
+        private Long taskId;
     }
 

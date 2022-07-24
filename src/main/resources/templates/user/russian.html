@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registration</title>
 </head>
 <body>
+<h3>Новости:</h3>
+<div>
+    <div th:if="${news.content}" th:each="piece:${news.content}">
+        <a th:href="@{'/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>
+        <input type="radio" name="idNews" th:value="${piece.id}"> <br>
+        <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>
+    </div>
+    <form action="/news" method="get">
+        <div>
+            <label for="page">Page:
+                <input id="page" type="number" name="page" th:value="${news.metadata.page}">
+            </label>
+            <label for="size">Size:
+                <input id="size" type="number" name="size" th:value="${news.metadata.size}">
+            </label>
+        </div>
+        <button type="submit">Применить</button>
+    </form>
+    <h3>Документы</h3>
+    <a th:href="@{'/documents'}" th:text="Работа с документами>Документы</a>
+    <div th:if="${!ktp.isEmpty()}">
+        <span>KTP:</span>
+        <div th:each="document: ${ktp}"  >
+            <a th:href="@{'/api/v1/documents/KTP/' + ${document.id}}" th:text="${document.document}">KTP</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
+    <div th:if="${!work_projects.isEmpty()}">
+        <span>WORK_PROJECTS:</span>
+        <div th:each="document: ${work_projects}" >
+            <a th:href="@{'/api/v1/documents/WORK_PROJECTS/' + ${document.id}}" th:text="${document.document}">Work projects</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
+    <div th:if="${!schedule.isEmpty()}">
+        <span>SCHEDULE:</span>
+        <div th:each="document: ${schedule}">
+            <a th:href="@{'/api/v1/documents/SCHEDULE/' + ${document.id}}" th:text="${document.document}">Schedule</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
+    <div th:if="${!event.isEmpty()}">
+        <span>EVENT:</span>
+        <div th:each="document: ${event}">
+            <a th:href="@{'/api/v1/documents/EVENT/' + ${document.id}}" th:text="${document.document}">Event</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
+    <div th:if="${!instruction.isEmpty()}">
+        <span>INSTRUCTION:</span>
+        <div th:each="document: ${instruction}">
+            <a th:href="@{'/api/v1/documents/INSTRUCTION/' + ${document.id}}" th:text="${document.document}">Instruction</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
+    <div th:if="${!general_works.isEmpty()}">
+        <span>GENERAL_WORKS:</span>
+        <div th:each="document: ${general_works}">
+            <a th:href="@{'/api/v1/documents/GENERAL_WORKS/' + ${document.id}}" th:text="${document.id}">General works</a>
+            <input type="radio" name="idDocument" th:value="${document.id}">
+        </div>
+    </div>
 
+</div>
+<h3>Задачи:</h3>
+<a th:href="@{/'tasks'}" th:text="Выполнение плановых задач">Задачи</a>
+<div>
+    <div th:if="${!#httpServletRequest.requestURI.contains('create')}" th:each="task:${allByUser_id}">
+        <a th:href="@{'/admin/tasks/'+${id1}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>&emsp;
+        <a th:href="@{'/admin/tasks/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
+        <a th:href="@{'/admin/tasks/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
+        <br>
+    </div>
+</div>
 </body>
 </html>

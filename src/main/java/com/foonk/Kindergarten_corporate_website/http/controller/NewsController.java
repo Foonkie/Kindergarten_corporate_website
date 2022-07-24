@@ -36,17 +36,16 @@ import static java.util.stream.Collectors.*;
 
 
 @Slf4j
-@RequestMapping("/admin")
 @Controller
 @RequiredArgsConstructor
 public class NewsController {
    private final DocumentService documentService;
    private final NewsService newsService;
-    @GetMapping
+    @GetMapping("/admin")
     public String admin(){
         return "user/admin";
     }
-    @GetMapping("/news")
+    @GetMapping("/admin/news")
     public String news(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession ) {
         if (!(pageable.getPageSize()==20 && pageable.getPageNumber()==0)){
         httpSession.setAttribute("pageable_after", pageable);
@@ -67,13 +66,13 @@ public class NewsController {
         }
         return "user/admin_news";
     }
-    @GetMapping("/first_page")
+    @GetMapping("/admin/first_page")
     public String admin_first()
     {
         return "user/admin_first_page";
     }
 
-    @GetMapping("/documents")
+    @GetMapping("/admin/documents")
     public String admin_documents(Model model){
         Kind[] values = Kind.values();
         List<Kind> kind_kinds = Arrays.asList(values);
@@ -88,9 +87,7 @@ public class NewsController {
         return "user/admin_documents";
     }
 
-
-
-    @GetMapping("/russian")
+    @GetMapping("/admin/russian")
     public String findAllByKind(Model model) {
         model.addAttribute("ktp", documentService.findAllDocumentByKind("KTP"));
         model.addAttribute("work_projects", documentService.findAllDocumentByKind("WORK_PROJECTS"));
@@ -100,38 +97,40 @@ public class NewsController {
         model.addAttribute("general_works", documentService.findAllDocumentByKind("GENERAL_WORKS"));
         return "user/admin_russian";
     }
-    @GetMapping("/news/{id}")
+    @GetMapping("/admin/news/{id}")
     public String showNews(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
         newsService.findById(id)
         .map(news->redirectAttributes.addFlashAttribute("show_news", news));
         return "redirect:/admin/news";
     }
-    @GetMapping("/documents/{kind}/{id}")
+    @GetMapping("/admin/documents/{kind}/{id}")
     public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind){
         documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(),kind));
         return "redirect:/admin/documents";
     }
-    @PostMapping("/news")
+
+
+    @PostMapping("/admin/news")
     public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
         newsService.create(news);
         return "redirect:/admin/news";
     }
 
-    @PostMapping("/documents/create")
+    @PostMapping("/admin/documents/create")
     public String admin_documents_create(Model model, DocumentCreateEditDto dto)
     {
         documentService.create(dto);
         return "redirect:/admin/documents";
     }
 
-    @PostMapping("/documents/delete")
+    @PostMapping("/admin/documents/delete")
     public String admin_documents_delete(Model model, Long idDocument)
     {
         documentService.delete(idDocument);
         return "redirect:/admin/documents";
     }
 
-    @PostMapping("/news/delete")
+    @PostMapping("/admin/news/delete")
     public String admin_news_delete(Model model, Long idNews)
     {
         newsService.delete(idNews);

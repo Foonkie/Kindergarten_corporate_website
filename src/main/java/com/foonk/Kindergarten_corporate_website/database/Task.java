@@ -26,8 +26,6 @@ public class Task {
 
     private String task_header;
 
-    @OneToMany(mappedBy = "task")
-    private List<SubTask> subTask;
     private LocalDateTime endTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

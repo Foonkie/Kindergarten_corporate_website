@@ -13,3 +13,4 @@ spring:
   mvc:
     format:
       date: iso
+      date-time: iso

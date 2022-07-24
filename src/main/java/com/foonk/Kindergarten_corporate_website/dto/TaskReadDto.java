@@ -1,22 +1,26 @@
 package com.foonk.Kindergarten_corporate_website.dto;
 
-import com.foonk.Kindergarten_corporate_website.database.SubTask;
+
 import com.foonk.Kindergarten_corporate_website.database.Type;
 import com.foonk.Kindergarten_corporate_website.database.User;
 import com.foonk.Kindergarten_corporate_website.validation.group.CreateAction;
-import lombok.Value;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Value
+@AllArgsConstructor
 public class TaskReadDto {
-    private Long id;
 
-    private List<SubTask> subTask;
+    private List<SubTaskReadDto> subTaskReadDtos;
+
+    private Long id;
 
     private Type type;
 
@@ -24,5 +28,5 @@ public class TaskReadDto {
 
     private LocalDateTime endTime;
 
-    private User user;
+    private UserReadDto user;
 }

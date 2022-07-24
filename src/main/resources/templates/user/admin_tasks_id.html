@@ -3,57 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
-    <body>
+<body>
+<h3>Постановка задачи сотруднику</h3>
+<div th:if="${!#httpServletRequest.requestURI.contains('create')}" th:each="task:${allByUser_id}">
+    <a th:href="@{'/admin/tasks/'+${id1}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>&emsp;
+    <a th:href="@{'/admin/tasks/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
+    <a th:href="@{'/admin/tasks/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
+    <br>
+</div>
 
-<div th:if="${allByUser_id}" th:each="task:${allByUser_id}">
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>&emsp;
-    <a th:href="@{'/admin/tasks/'+${id}+'/create'}" th:text="Создать">Create</a>
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
-    <a th:href="@{'/admin/tasks/'+${id}+'/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
-<br>
-    </div>
-<div th:if="${#servletContext.contextPath.toString().contains('create')}" method="post">
-    <form th:action="@{'/admin/tasks/'+${id}+'/create'}">
-
-        <label for="task_header">Name for task:
-            <input id="task_header" type="text" name="task_header">
+<div th:if="${!#httpServletRequest.requestURI.contains('create')} AND ${!#httpServletRequest.requestURI.contains('update')}">
+    <br>
+    <a th:href="@{'/admin/tasks/create'}" th:text="|Создать задачу|">Создать задачу</a>
+</div>
+<div th:if="${#httpServletRequest.requestURI.contains('create')} OR ${#httpServletRequest.requestURI.contains('update')}">
+    <form th:action="@{/admin/tasks/{modify}(modify=${modify})}" method="post" th:object="${taskReadDto}">
+        <label for="task_header">Имя для задачи:
+            <input id="task_header" type="text" name="task_header" th:value="*{task_header}">
         </label><br>
-
+        <h3>Тип задачи</h3>
+        <div th:if="${#httpServletRequest.requestURI.contains('create')}">
+            <div th:each="typeFrom:${types}">
+                <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom}">
+            </div><br>
+        </div>
+        <div th:if="${#httpServletRequest.requestURI.contains('update')}">
         <div th:each="typeFrom:${types}">
-           <input type="checkbox" name="type" th:value="${typeFrom}">
+            <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom}" th:checked="${typeFrom.toString()}==*{type.toString()}">
+        </div><br>
         </div>
-        <label for="task_header">Name for task:
-            <input id="task_header" type="text" name="task_header">
+        <label for="endTime">До какого времени необходимо выполнить:
+            <input id="endTime" type="datetime-local" name="endTime" th:value="*{endTime}">
         </label><br>
-
-
-        <div th:if="${subtasks.isEmpty}">
-            <input id="subTask" type="text" name="subTask">
-<!--            @Enumerated(EnumType.STRING)-->
-<!--            private Type type;-->
-
-<!--            private String task_header;-->
-
-<!--            @OneToMany(mappedBy = "task")-->
-<!--            private List<SubTask> subTask;-->
-<!--            private LocalDateTime endTime;-->
-<!--            @ManyToOne(fetch = FetchType.LAZY)-->
-<!--            @JoinColumn(name = "user_id")-->
-<!--            private User user;-->
+        <br>
+        <h3>Сотрудник</h3>
+        <div th:if="${#httpServletRequest.requestURI.contains('create')}">
+        <div th:each="user:${users}">
+            <input type="radio" name="userId" th:value="${user.id}" th:text="|${user.firstname} ${user.lastname}|">
+            <br>
         </div>
-        <div th:unless="${subtasks.isEmpty}">
-            <div th:each="subtask:${subtasks}">
-                <div th:text='|${subtask.id} . ${subtask.subtask}|'>subTask</div>
-            </div>
-            <input id="subTask" type="text" name="subTask">
+        </div>
+        <div th:if="${#httpServletRequest.requestURI.contains('update')}">
+        <div th:each="user:${users}">
+            <input type="radio" name="userId" th:value="${user.id}" th:text="|${user.firstname} ${user.lastname}|" th:checked="${user.id}==*{user.id}">
+            <br>
+        </div>
         </div>
 
 
+            <h3>Подзадачи</h3>
+        <div>
+            <label for="first" > 1.Подзадача:
+            <input id="first" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].subtask}" name="subtask" th:text="${listForUpdate[0]}">
+            </label>
+        </div>
+        <div>
+            <label for="second" > 2.Подзадача:
+            <input id="second" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].subtask}" name="subtask" th:text="${listForUpdate[1]}">
+            </label>
+        </div>
+        <div>
+            <label for="third" > 3.Подзадача:
+            <input id="third" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].subtask}" name="subtask" th:text="${listForUpdate[2]}">
+            </label>
+        </div>
+        <div>
+            <label for="fourth" > 4.Подзадача:
+            <input id="fourth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].subtask}" name="subtask" th:text="${listForUpdate[3]}">
+            </label>
+        </div>
+        <div>
+            <label for="fifth" > 5.Подзадача:
+            <input id="fifth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].subtask}" name="subtask" th:text="${listForUpdate[4]}">
+            </label>
+        </div>
+        <button type="submit" th:text="Создать"></button>
     </form>
+        </div>
+
 
 
 </div>
-
 </body>
 </head>
 </html>
