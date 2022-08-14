@@ -31,7 +31,7 @@ public class TaskReadMapper implements Mapper<Task, TaskReadDto>{
         return new TaskReadDto(subtasks(task),task.getId(),task.getType(),task.getTask_header(),task.getEndTime(),user);
     }
         public List<SubTaskReadDto> subtasks (Task task){
-        return subTaskRepository.findAllByTask(task).stream().map(subTaskReadMapper::map).toList();
+        return subTaskRepository.findAllByTask(task).stream().map(subTaskReadMapper::map).sorted(new SubTaskReadDto.SubTaskReadDtoComparator()).toList();
     }
 
 }

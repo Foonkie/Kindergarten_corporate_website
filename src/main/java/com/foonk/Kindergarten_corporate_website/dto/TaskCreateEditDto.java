@@ -2,6 +2,8 @@ package com.foonk.Kindergarten_corporate_website.dto;
 
 import com.foonk.Kindergarten_corporate_website.database.Type;
 import com.foonk.Kindergarten_corporate_website.validation.group.CreateAction;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public final class TaskCreateEditDto {
 
-   private final List<SubTaskCreateEditDto> subTaskCreateEditDtos=new ArrayList(Arrays.asList(new SubTaskCreateEditDto("", null), new SubTaskCreateEditDto("", null), new SubTaskCreateEditDto("", null), new SubTaskCreateEditDto("", null), new SubTaskCreateEditDto("", null)));
+   private final List<SubTaskCreateEditDto> subTaskCreateEditDtos=new ArrayList(Arrays.asList(new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false)));
 
     @Enumerated(EnumType.STRING)
     @NotBlank(groups = CreateAction.class)

@@ -18,4 +18,6 @@ public class SubTaskCreateEditDto {
     private  String subtask;
 
     private Long taskId;
+
+    private Boolean status;
 }

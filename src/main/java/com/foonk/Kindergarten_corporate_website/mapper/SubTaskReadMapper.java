@@ -25,7 +25,7 @@ public class SubTaskReadMapper implements Mapper<SubTask, SubTaskReadDto> {
 //       TaskReadDto task= Optional.ofNullable(object.getTask())
 //               .map(taskReadMapper::map)
 //               .orElse(null);
-        return new SubTaskReadDto(object.getId(), object.getSubtask(), object.getTask().getId());
+        return new SubTaskReadDto(object.getId(), object.getSubtask(), object.getTask().getId(), object.getStatus());
     }
 
 }

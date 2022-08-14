@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -45,13 +46,15 @@ public class NewsController {
     public String admin(){
         return "user/admin";
     }
+
     @GetMapping("/admin/news")
-    public String news(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession ) {
+    public String news(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if (!(pageable.getPageSize()==20 && pageable.getPageNumber()==0)){
         httpSession.setAttribute("pageable_after", pageable);
 
         Page<NewsReadDto> page = newsService.findAll(pageable);
-        model.addAttribute("news", PageResponse.of(page));}
+        model.addAttribute("news", PageResponse.of(page));
+        }
         else {
             Pageable pageable_after1 = (Pageable) httpSession.getAttribute("pageable_after");
             if (!(pageable_after1 ==null))
@@ -63,6 +66,8 @@ public class NewsController {
                 Page<NewsReadDto> page = newsService.findAll(pageable);
                 model.addAttribute("news", PageResponse.of(page));
             }
+            PageResponse<NewsReadDto> newsForEdit = (PageResponse<NewsReadDto>) model.getAttribute("news");
+            redirectAttributes.addFlashAttribute("news", newsForEdit);
         }
         return "user/admin_news";
     }
@@ -103,10 +108,20 @@ public class NewsController {
         .map(news->redirectAttributes.addFlashAttribute("show_news", news));
         return "redirect:/admin/news";
     }
+
     @GetMapping("/admin/documents/{kind}/{id}")
     public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind){
         documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(),kind));
         return "redirect:/admin/documents";
+    }
+
+    @GetMapping("/admin/news/edit/{id}")
+    public String editNews(Model model, @PathVariable Long id,PageResponse<NewsReadDto> news){
+        Optional<NewsReadDto> newsReadDto = newsService.findById(id);
+       return newsReadDto.map(newsForEdit->{
+        model.addAttribute("newsReadDto",newsForEdit);
+        return "user/admin_news_edit";})
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 
@@ -130,11 +145,25 @@ public class NewsController {
         return "redirect:/admin/documents";
     }
 
-    @PostMapping("/admin/news/delete")
-    public String admin_news_delete(Model model, Long idNews)
+
+    @PostMapping("/admin/news/edit")
+    public String admin_news_delete(Model model, Long id, @RequestParam(name = "action") String action, Pageable pageable)
     {
-        newsService.delete(idNews);
+        if (action.equals("Edit")) {
+            return "redirect:/admin/news/edit/"+id;
+        }
+
+        if (action.equals("Delete")) {
+            newsService.delete(id);
+        }
+
         return "redirect:/admin/news";
+    }
+    @PostMapping("/admin/news/edit/{id}")
+    public String admin_news_edit(NewsCreateEditDto newsCreateEditDto, @PathVariable Long id)
+    {
+        newsService.update(newsCreateEditDto, id);
+      return "redirect:/admin/news";
     }
 
 

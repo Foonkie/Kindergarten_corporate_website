@@ -2,9 +2,7 @@ package com.foonk.Kindergarten_corporate_website.service;
 
 import com.foonk.Kindergarten_corporate_website.database.repository.NewsRepository;
 import com.foonk.Kindergarten_corporate_website.database.repository.UserRepository;
-import com.foonk.Kindergarten_corporate_website.dto.NewsCreateEditDto;
-import com.foonk.Kindergarten_corporate_website.dto.NewsReadDto;
-import com.foonk.Kindergarten_corporate_website.dto.UserReadDto;
+import com.foonk.Kindergarten_corporate_website.dto.*;
 import com.foonk.Kindergarten_corporate_website.mapper.Mapper;
 import com.foonk.Kindergarten_corporate_website.mapper.NewsCreateEditMapper;
 import com.foonk.Kindergarten_corporate_website.mapper.NewsReadMapper;
@@ -56,4 +54,15 @@ public class NewsService {
                 })
                 .orElse(false);
     }
-}
+
+    public Optional<NewsReadDto> update(NewsCreateEditDto newsCreateEditDto, Long idNews) {
+
+            return newsRepository.findById(idNews)
+                    .map(news->{
+                        return newsCreateEditMapper.map(newsCreateEditDto, news);
+                    })
+                    .map(newsRepository::saveAndFlush)
+                    .map(newsReadMapper::map);
+        }
+    }
+

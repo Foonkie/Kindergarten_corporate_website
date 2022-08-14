@@ -10,6 +10,7 @@ import liquibase.pro.packaged.A;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.expression.ExpressionParser;
@@ -79,11 +80,11 @@ public class TaskController {
         String modify="create";
         model.addAttribute("modify", modify);
         List<UserReadDto> users = userService.findAll();
-        List<String> types = Arrays.asList(Type.values()).stream().map(list -> list.toString()).collect(toList());
+        List<String> types = Arrays.stream(Type.values()).map(list -> list.getName()).collect(toList());
         model.addAttribute("users", users);
         model.addAttribute("types", types);
         model.addAttribute("taskCreateEditDto", taskCreateEditDto);
-        TaskReadDto taskReadDto = new TaskReadDto(new ArrayList<>(Arrays.asList(new SubTaskReadDto(null,null, null), new SubTaskReadDto(null,null, null), new SubTaskReadDto(null,null, null), new SubTaskReadDto(null,null, null), new SubTaskReadDto(null,null, null) )), null, null, null, null, null);
+        TaskReadDto taskReadDto = new TaskReadDto(new ArrayList<>(Arrays.asList(new SubTaskReadDto(null,null, null, false), new SubTaskReadDto(null,null, null, false), new SubTaskReadDto(null,null, null, false), new SubTaskReadDto(null,null, null, false), new SubTaskReadDto(null,null, null, false) )), null, null, null, null, null);
         model.addAttribute("taskReadDto", taskReadDto);
         List<String> listForUpdate;
         listForUpdate =taskReadDto.getSubTaskReadDtos().stream().map(subTaskReadDto -> subTaskReadDto.getSubtask()).toList();
@@ -108,24 +109,28 @@ public class TaskController {
         return "redirect:/admin/tasks";
     }
     @GetMapping("/admin/tasks/{id1}/update")
-    public String preUpdate(Model model,TaskCreateEditDto taskCreateEditDto,@PathVariable("id1") Long id1, Pageable pageable){
+    public String preUpdate(Model model, TaskCreateEditDto taskCreateEditDto, @PathVariable("id1") Long id1, Pageable pageable){
         String modify=id1.toString().concat("/update");
         model.addAttribute("modify", modify);
         List<UserReadDto> users = userService.findAll();
-        List<String> types = Arrays.asList(Type.values()).stream().map(list -> list.toString()).collect(toList());
+        List<String> types = Arrays.asList(Type.values()).stream().map(list -> list.getName()).collect(toList());
         model.addAttribute("users", users);
         model.addAttribute("types", types);
         model.addAttribute("taskCreateEditDto", taskCreateEditDto);
         TaskReadDto taskReadDto = taskService.findById(id1)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("taskReadDto", taskReadDto);
-        List<String> listForUpdate;
-        listForUpdate =taskReadDto.getSubTaskReadDtos().stream().map(subTaskReadDto -> subTaskReadDto.getSubtask()).toList();
-        int size = taskReadDto.getSubTaskReadDtos().size();
-        for (int i = 0; i < 5-size; i++) {
-            listForUpdate.add("");
-        }
-        model.addAttribute("listForUpdate", listForUpdate);
+        TaskCreateEditDto taskCreateEditDto1=new TaskCreateEditDto(taskReadDto.getType(), taskReadDto.getTask_header(), taskReadDto.getEndTime(), taskReadDto.getId());
+        taskReadDto.getSubTaskReadDtos().stream().forEach(subTaskReadDto -> taskCreateEditDto1.add(new SubTaskCreateEditDto(subTaskReadDto.getSubtask(), subTaskReadDto.getId(), subTaskReadDto.getStatus())));
+            for (int i = 0; i < taskCreateEditDto1.getSubTaskCreateEditDtos().size()-1; i++) {
+               if (taskCreateEditDto1.getSubTaskCreateEditDtos().get(i).getSubtask().isEmpty()){
+                   taskCreateEditDto1.getSubTaskCreateEditDtos().remove(i);
+                   i--;
+               };
+            }
+
+        model.addAttribute("taskCreateEditDto", taskCreateEditDto1);
+
         return "user/admin_tasks_id";
     }
     @PostMapping("/admin/tasks/{id1}/update")
@@ -142,7 +147,6 @@ public class TaskController {
                     return "redirect:/admin/tasks";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
         return link;
     }
 

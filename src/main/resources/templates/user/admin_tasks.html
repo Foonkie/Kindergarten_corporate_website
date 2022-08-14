@@ -23,6 +23,8 @@
 <!--        <button type="submit">Удалить</button>-->
 <!--    </label>-->
 <!--</form>-->
+<div th:insert="~{fragment::header}"></div>
+<br>
 <div th:if="${users}" th:each="user:${users}">
     <a th:href="@{'/admin/tasks/'+${user.id}}" th:text="|${user.firstname}  ${user.lastname}|">Tasks</a>
     </div>

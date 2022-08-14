@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin</title>
 <body>
+<div th:insert="~{fragment::header}"></div>
 <span>Документы</span>
 <div th:if="${!ktp.isEmpty()}">
     <span>KTP:</span>

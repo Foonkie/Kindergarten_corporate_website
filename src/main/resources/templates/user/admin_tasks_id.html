@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Admin</title>
 <body>
+<div th:insert="~{fragment::header}"></div>
 <h3>Постановка задачи сотруднику</h3>
 <div th:if="${!#httpServletRequest.requestURI.contains('create')}" th:each="task:${allByUser_id}">
-    <a th:href="@{'/admin/tasks/'+${id1}+'/'+${task.id}}" th:text="${task.getTask_header()}">Task</a>&emsp;
+    <span th:text="${task.getTask_header()}">Task</span>&emsp;
     <a th:href="@{'/admin/tasks/'+${task.id}+'/update'}" th:text="Обновить">Update</a>
     <a th:href="@{'/admin/tasks/'+${task.id}+'/delete'}" th:text="Удалить">Delete</a>
     <br>
@@ -54,28 +55,33 @@
             <h3>Подзадачи</h3>
         <div>
             <label for="first" > 1.Подзадача:
-            <input id="first" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].subtask}" name="subtask" th:text="${listForUpdate[0]}">
+            <input id="first" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].subtask}" name="subtask">
             </label>
+            <input type="checkbox" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].status}" name="status">
         </div>
         <div>
             <label for="second" > 2.Подзадача:
-            <input id="second" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].subtask}" name="subtask" th:text="${listForUpdate[1]}">
+            <input id="second" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].subtask}" name="subtask">
             </label>
+            <input type="checkbox" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].status}" name="status">
         </div>
         <div>
             <label for="third" > 3.Подзадача:
-            <input id="third" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].subtask}" name="subtask" th:text="${listForUpdate[2]}">
+            <input id="third" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].subtask}" name="subtask">
             </label>
+            <input type="checkbox"  th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].status}" name="status">
         </div>
         <div>
             <label for="fourth" > 4.Подзадача:
-            <input id="fourth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].subtask}" name="subtask" th:text="${listForUpdate[3]}">
+            <input id="fourth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].subtask}" name="subtask">
             </label>
+            <input type="checkbox" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].status}" name="status">
         </div>
         <div>
             <label for="fifth" > 5.Подзадача:
-            <input id="fifth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].subtask}" name="subtask" th:text="${listForUpdate[4]}">
+            <input id="fifth" type="text" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].subtask}" name="subtask">
             </label>
+            <input type="checkbox" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].status}" name="status">
         </div>
         <button type="submit" th:text="Создать"></button>
     </form>

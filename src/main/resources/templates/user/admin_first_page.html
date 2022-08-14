@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Админ-Документы</title>
 </head>
 <body>
+<div th:insert="~{fragment::header}"></div>
+<br>
 <span>Администрирование</span>
 <form action="/admin" method="get">
     <button type="submit">Админ</button>

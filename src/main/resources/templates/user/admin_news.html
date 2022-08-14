@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <body>
+<div th:insert="~{fragment::header}"></div>
 <form action="/admin/news" method="post">
     <label for="header">Заголовок:
         <input id="header" type="text" name="header">
@@ -13,22 +14,27 @@
     </label><br>
     <button type="submit">Создать новость</button>
 </form>
-<form method="post" action="/admin/news/delete">
+
+<form method="post" action="/admin/news/edit">
 <div th:if="${news.content}" th:each="piece:${news.content}">
-    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="|${piece.id}. ${piece.header}|">News</a>
-    <input type="radio" name="idNews" th:value="${piece.id}"> <br>
+    <input type="radio" name="id"  th:value="${piece.id}">
+    <a th:href="@{'/admin/news/' + ${piece.id}}" th:text="${piece.header}">News</a>
+ <br>
     <a th:if="${show_news.getId()==piece.id}" th:text="${show_news.getBody()}">Body</a>
 </div>
-    <label>
-        <button type="submit">Удалить</button>
-    </label>
-</form>
+<label>
+<button type="submit" name="action" value="Edit">Редактировать</button>
+</label>
+<label>
+<button type="submit" name="action" value="Delete">Удалить</button>
+</label>
+    </form>
 <form action="/admin/news" method="get">
     <div>
-        <label for="page">Page:
+        <label for="page">Страница:
             <input id="page" type="number" name="page" th:value="${news.metadata.page}">
         </label>
-        <label for="size">Size:
+        <label for="size">Количество новостей на странице:
             <input id="size" type="number" name="size" th:value="${news.metadata.size}">
         </label>
     </div>

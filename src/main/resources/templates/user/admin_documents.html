@@ -5,11 +5,12 @@
         <title>Админ-Документы</title>
     </head>
 <body>
+<div th:insert="~{fragment::header}"></div>
 <span>Добавить документ</span>
 <form th:action="@{/admin/documents/create}" enctype="multipart/form-data" method="post">
       <label for="document"> Тип:
 <select id="document" name="kind">
-    <option value="0">select option</option>
+    <option value="0">Выберите вид документа</option>
     <option th:each="kind : ${kinds}"
             th:value="${kind}"
             th:text="${kind}">Kind</option>
@@ -22,7 +23,9 @@
 </button>
 </form>
 <form th:action="@{/admin/documents/delete}" method="post">
+    <br>
 <span>Документы</span>
+
 <div th:if="${!ktp.isEmpty()}">
     <span>KTP:</span>
     <div th:each="document: ${ktp}"  >
@@ -30,6 +33,7 @@
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
+    <br>
 <div th:if="${!work_projects.isEmpty()}">
     <span>WORK_PROJECTS:</span>
     <div th:each="document: ${work_projects}" >
@@ -37,6 +41,7 @@
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
+    <br>
 <div th:if="${!schedule.isEmpty()}">
     <span>SCHEDULE:</span>
     <div th:each="document: ${schedule}">
@@ -44,6 +49,7 @@
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
+    <br>
 <div th:if="${!event.isEmpty()}">
     <span>EVENT:</span>
     <div th:each="document: ${event}">
@@ -51,6 +57,7 @@
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
+    <br>
 <div th:if="${!instruction.isEmpty()}">
     <span>INSTRUCTION:</span>
     <div th:each="document: ${instruction}">
@@ -58,6 +65,7 @@
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
+    <br>
 <div th:if="${!general_works.isEmpty()}">
     <span>GENERAL_WORKS:</span>
     <div th:each="document: ${general_works}">

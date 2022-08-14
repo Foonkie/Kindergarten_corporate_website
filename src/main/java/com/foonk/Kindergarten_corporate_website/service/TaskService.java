@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,12 @@ public class TaskService {
         return taskRepository.findAllByUser_Id(userId, pageable)
                 .map(taskReadMapper::map);
     }
+
+    public Page<TaskReadDto> findAllByUser_Username(String username, Pageable pageable){
+        return taskRepository.findAllByUser_Username(username, pageable)
+                .map(taskReadMapper::map);
+    }
+
     public TaskReadDto create(TaskCreateEditDto taskCreateEditDto){
         return Optional.of(taskCreateEditDto)
                 .map(dto->taskCreateEditMapper.map(taskCreateEditDto))
@@ -82,7 +89,17 @@ public class TaskService {
                      subTaskRepository.flush();
                  });
        List<String> list1 = subTaskRepository.findAllByTask_Id(taskId).stream().map(subtask -> subtask.getSubtask()).toList();
-     return  subTaskCreateEditDtos.stream().filter(subtask->!subtask.getSubtask().isBlank()).filter(subtask -> !list1.contains(subtask.getSubtask())).map(subTaskService::create).toList();
+       List<SubTaskReadDto> subTaskReadDtos=new ArrayList<>();
+       for (SubTaskCreateEditDto dto:subTaskCreateEditDtos){
+           if (list1.contains(dto.getSubtask())){
+              subTaskReadDtos.add(subTaskService.update(dto, taskId));
+           }
+           else if (!dto.getSubtask().isEmpty())
+           {
+               subTaskReadDtos.add(subTaskService.create(dto));
+           }
+       }
+     return  subTaskReadDtos;
    }
 
 }

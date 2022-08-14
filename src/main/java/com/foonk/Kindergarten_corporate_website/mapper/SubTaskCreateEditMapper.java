@@ -30,6 +30,7 @@ public class SubTaskCreateEditMapper implements Mapper<SubTaskCreateEditDto, Sub
     private void copy(SubTaskCreateEditDto subTaskCreateEditDto, SubTask subTask) {
         subTask.setTask(getTask(subTaskCreateEditDto.getTaskId()));
         subTask.setSubtask(subTaskCreateEditDto.getSubtask());
+        subTask.setStatus(subTaskCreateEditDto.getStatus());
     }
 
     public Task getTask(Long taskId) {

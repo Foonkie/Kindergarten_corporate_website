@@ -21,4 +21,5 @@ public class SubTask {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     private Task task;
+    private Boolean status;
 }
