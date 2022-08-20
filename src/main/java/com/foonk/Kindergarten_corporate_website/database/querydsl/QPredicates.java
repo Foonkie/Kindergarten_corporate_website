@@ -1,4 +1,5 @@
 package com.foonk.Kindergarten_corporate_website.database.querydsl;
+
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
@@ -28,11 +29,11 @@ public class QPredicates {
 
     public Predicate build() {
         return Optional.ofNullable(ExpressionUtils.allOf(predicates))
-                .orElseGet(()-> Expressions.asBoolean(true).isTrue());
+                .orElseGet(() -> Expressions.asBoolean(true).isTrue());
     }
 
     public Predicate buildOr() {
         return Optional.ofNullable(ExpressionUtils.anyOf(predicates))
-                .orElseGet(()-> Expressions.asBoolean(true).isTrue());
+                .orElseGet(() -> Expressions.asBoolean(true).isTrue());
     }
 }

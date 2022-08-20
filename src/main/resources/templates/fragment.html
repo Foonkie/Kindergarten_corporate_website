@@ -7,8 +7,11 @@
 <body>
 <div th:fragment="header">
 <form action="/logout" method="post">
-    <button type="submit">Logout</button>
+    <button type="submit">Выйти из аккаунта</button>
 </form>
+<form action="/default" method="get">
+        <button th:if="${!#httpServletRequest.requestURI.contains('default')}" type="submit">На главную страницу</button>
+    </form>
 </div>
 </body>
 </html>

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class NewsCreateEditMapper implements Mapper<NewsCreateEditDto, News> {
     @Override
     public News map(NewsCreateEditDto object) {
-    News news=new News();
-    copy(object, news);
+        News news = new News();
+        copy(object, news);
         return news;
     }
 
@@ -19,7 +19,7 @@ public class NewsCreateEditMapper implements Mapper<NewsCreateEditDto, News> {
     }
 
     private void copy(NewsCreateEditDto object, News news) {
-    news.setHeader(object.getHeader());
-    news.setBody(object.getBody());
+        news.setHeader(object.getHeader());
+        news.setBody(object.getBody());
     }
 }

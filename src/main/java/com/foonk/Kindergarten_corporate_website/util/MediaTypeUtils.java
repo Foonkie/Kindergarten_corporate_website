@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import javax.servlet.ServletContext;
 
 import org.springframework.http.MediaType;
+
 @UtilityClass
 public class MediaTypeUtils {
     public static MediaType getMediaTypeForFileName(ServletContext servletContext, String fileName) {

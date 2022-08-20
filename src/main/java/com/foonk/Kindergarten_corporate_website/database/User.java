@@ -38,5 +38,5 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
-    private List <Task> tasks=new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 }

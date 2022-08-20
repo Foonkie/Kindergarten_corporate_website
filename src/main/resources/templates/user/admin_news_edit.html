@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <body>
+<div th:insert="~{fragment::header}"></div>
+<form th:action="@{'/admin/news/edit/'+${id}}" method="post">
+    <label for="header">Заголовок:
+        <input id="header" type="text" name="header" th:value="${newsReadDto.header}">
+    </label><br>
+    <label for="body">Текст:
+        <input id="body" type="text" name="body" th:value="${newsReadDto.body}">
+    </label><br>
+    <button type="submit">Изменить новость</button>
+</form>
+
+</body>
+</head>
+</html>

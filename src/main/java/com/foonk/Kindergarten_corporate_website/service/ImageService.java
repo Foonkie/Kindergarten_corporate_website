@@ -2,7 +2,6 @@ package com.foonk.Kindergarten_corporate_website.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -17,21 +16,23 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private final String bucket="C:\\Users\\Katyusha\\IdeaProjects\\Kindergarten_corporate_website\\images";
+    private final String bucket = "C:\\Users\\Katyusha\\IdeaProjects\\Kindergarten_corporate_website\\images";
+
     @SneakyThrows
-    public void upload (String imagePath, InputStream content){
+    public void upload(String imagePath, InputStream content) {
         Path fullImagePath = Path.of(bucket, imagePath);
-        try(content) {
+        try (content) {
             Files.createDirectories(fullImagePath.getParent());
             Files.write(fullImagePath, content.readAllBytes(), CREATE, TRUNCATE_EXISTING);
         }
     }
+
     @SneakyThrows
-    public Optional<byte[]> get(String imagePath){
+    public Optional<byte[]> get(String imagePath) {
         Path fullImagePath = Path.of(bucket, imagePath);
 
         return Files.exists(fullImagePath)
                 ? Optional.of(Files.readAllBytes(fullImagePath))
-                :Optional.empty();
+                : Optional.empty();
     }
 }

@@ -13,7 +13,7 @@
     <option value="0">Выберите вид документа</option>
     <option th:each="kind : ${kinds}"
             th:value="${kind}"
-            th:text="${kind}">Kind</option>
+            th:text="${kind.getName()}">Kind</option>
 </select>
       </label>
     <label for="doc">Документ:
@@ -27,15 +27,15 @@
 <span>Документы</span>
 
 <div th:if="${!ktp.isEmpty()}">
-    <span>KTP:</span>
+    <span>КТП:</span>
     <div th:each="document: ${ktp}"  >
-        <a th:href="@{'/api/v1/documents/KTP/' + ${document.id}}" th:text="${document.document}">KTP</a>
+        <a th:href="@{'/api/v1/documents/KTP/' + ${document.id}}" th:text="${document.document}">КТП</a>
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
     <br>
 <div th:if="${!work_projects.isEmpty()}">
-    <span>WORK_PROJECTS:</span>
+    <span>Рабочие проекты:</span>
     <div th:each="document: ${work_projects}" >
         <a th:href="@{'/api/v1/documents/WORK_PROJECTS/' + ${document.id}}" th:text="${document.document}">Work projects</a>
         <input type="radio" name="idDocument" th:value="${document.id}">
@@ -43,7 +43,7 @@
 </div>
     <br>
 <div th:if="${!schedule.isEmpty()}">
-    <span>SCHEDULE:</span>
+    <span>Расписание:</span>
     <div th:each="document: ${schedule}">
         <a th:href="@{'/api/v1/documents/SCHEDULE/' + ${document.id}}" th:text="${document.document}">Schedule</a>
         <input type="radio" name="idDocument" th:value="${document.id}">
@@ -51,7 +51,7 @@
 </div>
     <br>
 <div th:if="${!event.isEmpty()}">
-    <span>EVENT:</span>
+    <span>Мероприятие:</span>
     <div th:each="document: ${event}">
         <a th:href="@{'/api/v1/documents/EVENT/' + ${document.id}}" th:text="${document.document}">Event</a>
         <input type="radio" name="idDocument" th:value="${document.id}">
@@ -59,20 +59,13 @@
 </div>
     <br>
 <div th:if="${!instruction.isEmpty()}">
-    <span>INSTRUCTION:</span>
+    <span>Инструкция:</span>
     <div th:each="document: ${instruction}">
         <a th:href="@{'/api/v1/documents/INSTRUCTION/' + ${document.id}}" th:text="${document.document}">Instruction</a>
         <input type="radio" name="idDocument" th:value="${document.id}">
     </div>
 </div>
     <br>
-<div th:if="${!general_works.isEmpty()}">
-    <span>GENERAL_WORKS:</span>
-    <div th:each="document: ${general_works}">
-        <a th:href="@{'/api/v1/documents/GENERAL_WORKS/' + ${document.id}}" th:text="${document.id}">General works</a>
-        <input type="radio" name="idDocument" th:value="${document.id}">
-    </div>
-</div>
 <label>
     <button type="submit">Удалить</button>
 </label>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Документы</title>
+</head>
+<body>
+<div th:insert="~{fragment::header}"></div>
+<h3>Документы:</h3><div>
+    <div th:if="${!ktp.isEmpty()}">
+        <span>КТП:</span>
+        <div th:each="document: ${ktp}"  >
+            <a th:href="@{'/api/v1/documents/KTP/' + ${document.id}}" th:text="${document.document}">KTP</a>
+        </div>
+    </div>
+    <div th:if="${!work_projects.isEmpty()}">
+        <span>Рабочие проекты:</span>
+        <div th:each="document: ${work_projects}" >
+            <a th:href="@{'/api/v1/documents/WORK_PROJECTS/' + ${document.id}}" th:text="${document.document}">Work projects</a>
+        </div>
+    </div>
+    <div th:if="${!schedule.isEmpty()}">
+        <span>Расписание:</span>
+        <div th:each="document: ${schedule}">
+            <a th:href="@{'/api/v1/documents/SCHEDULE/' + ${document.id}}" th:text="${document.document}">Schedule</a>
+        </div>
+    </div>
+    <div th:if="${!event.isEmpty()}">
+        <span>Мероприятие:</span>
+        <div th:each="document: ${event}">
+            <a th:href="@{'/api/v1/documents/EVENT/' + ${document.id}}" th:text="${document.document}">Event</a>
+        </div>
+    </div>
+    <div th:if="${!instruction.isEmpty()}">
+        <span>Инструкция:</span>
+        <div th:each="document: ${instruction}">
+            <a th:href="@{'/api/v1/documents/INSTRUCTION/' + ${document.id}}" th:text="${document.document}">Instruction</a>
+        </div>
+    </div>
+    <div th:if="${!general_works.isEmpty()}">
+        <span>GENERAL_WORKS:</span>
+        <div th:each="document: ${general_works}">
+            <a th:href="@{'/api/v1/documents/GENERAL_WORKS/' + ${document.id}}" th:text="${document.id}">General works</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Задачи</title>
+</head>
+<body>
+<div th:insert="~{fragment::header}"></div>
+<h3>Задачи:</h3>
+<div>
+    <div th:each="task:${tasks.content}">
+        <a th:href="@{'/tasks/'+${task.id}}" th:text="${task.task_header}">Task</a>&emsp;
+        <span>Выполнить до:</span>
+        <span th:text="${#temporals.format(task.endTime, 'dd/MM/yyyy')}"></span>
+    </div>
+        <div th:if="${!subTasks.isEmpty()}" >
+            <form action="/tasks" method="post" >
+                <input type="checkbox"  th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].status}" th:text="${subTasks[0].subtask}"  th:checked="${subTasks[0].status}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].subtask}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[0].taskId}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.type}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.endTime}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.task_header}">
+                <input type="hidden" th:if="${subTasks.size()>0}" th:field="${taskCreateEditDto.userId}">
+                <br th:if="${subTasks.size()>0}">
+                <input type="checkbox"  th:if="${subTasks.size()>1}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].status}"  th:text="${subTasks[1].subtask}" th:checked="${subTasks[1].status}">
+                <input type="hidden" th:if="${subTasks.size()>1}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].subtask}">
+                <input type="hidden" th:if="${subTasks.size()>1}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[1].taskId}">
+                <br th:if="${subTasks.size()>1}">
+                <input type="checkbox"  th:if="${subTasks.size()>2}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].status}"  th:text="${subTasks[2].subtask}" th:checked="${subTasks[2].status}">
+                <input type="hidden" th:if="${subTasks.size()>2}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].subtask}">
+                <input type="hidden" th:if="${subTasks.size()>2}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[2].taskId}">
+                <br th:if="${subTasks.size()>2}">
+                <input type="checkbox"  th:if="${subTasks.size()>3}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].status}"  th:text="${subTasks[3].subtask}" th:checked="${subTasks[3].status}">
+                <input type="hidden" th:if="${subTasks.size()>3}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].subtask}">
+                <input type="hidden" th:if="${subTasks.size()>3}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[3].taskId}">
+                <br th:if="${subTasks.size()>3}">
+                <input type="checkbox"  th:if="${subTasks.size()>4}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].status}"  th:text="${subTasks[4].subtask}" th:checked="${subTasks[4].status}">
+                <input type="hidden" th:if="${subTasks.size()>4}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].subtask}">
+                <input type="hidden" th:if="${subTasks.size()>4}" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].taskId}">
+                <br th:if="${subTasks.size()>4}">
+                <button type="submit" >Сохранить</button>
+            </form>
+        </div>
+
+</div>
+</body>
+</html>

@@ -1,9 +1,8 @@
 package com.foonk.Kindergarten_corporate_website.service;
 
 import com.foonk.Kindergarten_corporate_website.database.repository.NewsRepository;
-import com.foonk.Kindergarten_corporate_website.database.repository.UserRepository;
-import com.foonk.Kindergarten_corporate_website.dto.*;
-import com.foonk.Kindergarten_corporate_website.mapper.Mapper;
+import com.foonk.Kindergarten_corporate_website.dto.NewsCreateEditDto;
+import com.foonk.Kindergarten_corporate_website.dto.NewsReadDto;
 import com.foonk.Kindergarten_corporate_website.mapper.NewsCreateEditMapper;
 import com.foonk.Kindergarten_corporate_website.mapper.NewsReadMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,14 +25,14 @@ public class NewsService {
 
     @Transactional
     public NewsReadDto create(NewsCreateEditDto news) {
-    return Optional.of(news)
-        .map(dto->newsCreateEditMapper.map(dto))
-        .map(newsRepository::save)
-        .map(newsReadMapper::map)
-        .orElseThrow();
+        return Optional.of(news)
+                .map(dto -> newsCreateEditMapper.map(dto))
+                .map(newsRepository::save)
+                .map(newsReadMapper::map)
+                .orElseThrow();
     }
 
-    public Page <NewsReadDto> findAll(Pageable pageable) {
+    public Page<NewsReadDto> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable)
                 .map(newsReadMapper::map);
     }
@@ -57,12 +55,12 @@ public class NewsService {
 
     public Optional<NewsReadDto> update(NewsCreateEditDto newsCreateEditDto, Long idNews) {
 
-            return newsRepository.findById(idNews)
-                    .map(news->{
-                        return newsCreateEditMapper.map(newsCreateEditDto, news);
-                    })
-                    .map(newsRepository::saveAndFlush)
-                    .map(newsReadMapper::map);
-        }
+        return newsRepository.findById(idNews)
+                .map(news -> {
+                    return newsCreateEditMapper.map(newsCreateEditDto, news);
+                })
+                .map(newsRepository::saveAndFlush)
+                .map(newsReadMapper::map);
     }
+}
 

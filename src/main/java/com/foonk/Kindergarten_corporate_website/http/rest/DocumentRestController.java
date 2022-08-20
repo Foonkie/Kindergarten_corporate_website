@@ -4,25 +4,19 @@ import com.foonk.Kindergarten_corporate_website.dto.DocumentReadDto;
 import com.foonk.Kindergarten_corporate_website.service.DocumentService;
 import com.foonk.Kindergarten_corporate_website.util.MediaTypeUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
-
-import static org.springframework.http.ResponseEntity.notFound;
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/v1/documents")
@@ -34,7 +28,7 @@ public class DocumentRestController {
 
     private final ServletContext servletContext;
 
-    private final String bucket="C:\\Users\\Katyusha\\IdeaProjects\\Kindergarten_corporate_website\\documents";
+    private final String bucket = "C:\\Users\\Katyusha\\IdeaProjects\\Kindergarten_corporate_website\\documents";
 
     @RequestMapping(value = "/{kind}/{id}")
     public ResponseEntity<InputStreamResource> findAvatar(@PathVariable Long id, @PathVariable String kind) throws IOException {
@@ -45,7 +39,7 @@ public class DocumentRestController {
         if (s.isPresent()) {
             String s1 = s.get();
             MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(servletContext, s1);
-            File file = new File(bucket + "\\" + kind+ "\\"+ s1);
+            File file = new File(bucket + "\\" + kind + "\\" + s1);
             InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
@@ -53,7 +47,7 @@ public class DocumentRestController {
                     .contentLength(file.length())
                     .body(inputStreamResource);
         } else {
-            return  ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
     }
 }

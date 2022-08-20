@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface SubTaskRepository extends JpaRepository<SubTask, Long> {
     public List<SubTask> findAllByTask(Task task);
+
     public List<SubTask> findAllByTask_Id(Long id);
+
     public Optional<SubTask> findBySubtaskAndTask_Id(String subtask, Long id);
 }

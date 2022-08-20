@@ -48,11 +48,12 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model, @ModelAttribute("user") UserCreateEditDto user){
+    public String registration(Model model, @ModelAttribute("user") UserCreateEditDto user) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "user/registration";
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String create(@ModelAttribute @Validated UserCreateEditDto user,
@@ -64,9 +65,8 @@ public class UserController {
             return "redirect:/users/registration";
         }
         userService.create(user);
-        return "redirect:/login" ;
+        return "redirect:/login";
     }
-
 
 
     //    @PutMapping("/{id}")
@@ -85,8 +85,6 @@ public class UserController {
         }
         return "redirect:/users";
     }
-
-
 
 
 }

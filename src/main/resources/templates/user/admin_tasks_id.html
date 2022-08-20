@@ -25,12 +25,12 @@
         <h3>Тип задачи</h3>
         <div th:if="${#httpServletRequest.requestURI.contains('create')}">
             <div th:each="typeFrom:${types}">
-                <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom}">
+                <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom.getName()}">
             </div><br>
         </div>
         <div th:if="${#httpServletRequest.requestURI.contains('update')}">
         <div th:each="typeFrom:${types}">
-            <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom}" th:checked="${typeFrom.toString()}==*{type.toString()}">
+            <input id="type" type="radio" name="type" th:value="${typeFrom}" th:text="${typeFrom}" th:checked="${typeFrom.getName()}==*{type.getName()}">
         </div><br>
         </div>
         <label for="endTime">До какого времени необходимо выполнить:
@@ -83,7 +83,8 @@
             </label>
             <input type="checkbox" th:field="${taskCreateEditDto.subTaskCreateEditDtos[4].status}" name="status">
         </div>
-        <button type="submit" th:text="Создать"></button>
+        <button th:if="${#httpServletRequest.requestURI.contains('update')}" type="submit" th:text="Обновить"></button>
+        <button th:if="${#httpServletRequest.requestURI.contains('create')}" type="submit" th:text="Создать"></button>
     </form>
         </div>
 

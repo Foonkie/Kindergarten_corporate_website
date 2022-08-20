@@ -18,7 +18,7 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-@Column(name = "type")
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Kind kind;
 

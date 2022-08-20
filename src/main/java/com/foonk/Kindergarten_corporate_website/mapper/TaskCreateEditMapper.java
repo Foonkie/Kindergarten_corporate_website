@@ -1,30 +1,23 @@
 package com.foonk.Kindergarten_corporate_website.mapper;
 
-import com.foonk.Kindergarten_corporate_website.database.News;
 import com.foonk.Kindergarten_corporate_website.database.Task;
 import com.foonk.Kindergarten_corporate_website.database.User;
 import com.foonk.Kindergarten_corporate_website.database.repository.UserRepository;
-import com.foonk.Kindergarten_corporate_website.dto.NewsCreateEditDto;
-import com.foonk.Kindergarten_corporate_website.dto.SubTaskCreateEditDto;
 import com.foonk.Kindergarten_corporate_website.dto.TaskCreateEditDto;
-
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class TaskCreateEditMapper implements Mapper<TaskCreateEditDto, Task>{
-   private final UserRepository userRepository;
+public class TaskCreateEditMapper implements Mapper<TaskCreateEditDto, Task> {
+    private final UserRepository userRepository;
 
 
     @Override
     public Task map(TaskCreateEditDto object) {
-        Task task=new Task();
+        Task task = new Task();
         copy(object, task);
         return task;
     }
