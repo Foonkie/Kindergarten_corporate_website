@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-
+/*Контроллер для работы адинистратора с новостями.*/
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class NewsController {
 
     private final NewsService newsService;
 
-
+/*Метод возвращающий страницу со списком новостей*/
     @GetMapping("/admin/news")
     public String news(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if (!(pageable.getPageSize() == 20 && pageable.getPageNumber() == 0)) {
@@ -50,7 +50,7 @@ public class NewsController {
         return "user/admin_news";
     }
 
-
+/*Метод возвращающий страницу со списком новостей и открытой выбранной новостью*/
     @GetMapping("/admin/news/{id}")
     public String showNews(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         newsService.findById(id)
@@ -58,7 +58,7 @@ public class NewsController {
         return "redirect:/admin/news";
     }
 
-
+/*Метод для редакттирования новости*/
     @GetMapping("/admin/news/edit/{id}")
     public String editNews(Model model, @PathVariable Long id, PageResponse<NewsReadDto> news) {
         Optional<NewsReadDto> newsReadDto = newsService.findById(id);
@@ -69,26 +69,24 @@ public class NewsController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-
+/*Метод для создания новости*/
     @PostMapping("/admin/news")
     public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
         newsService.create(news);
         return "redirect:/admin/news";
     }
-
+/*Метод для редактирования или удаления новости*/
     @PostMapping("/admin/news/edit")
     public String admin_news_delete(Model model, Long id, @RequestParam(name = "action") String action, Pageable pageable) {
         if (action.equals("Edit")) {
             return "redirect:/admin/news/edit/" + id;
         }
-
         if (action.equals("Delete")) {
             newsService.delete(id);
         }
-
         return "redirect:/admin/news";
     }
-
+/*Метод для редактирования новости*/
     @PostMapping("/admin/news/edit/{id}")
     public String admin_news_edit(NewsCreateEditDto newsCreateEditDto, @PathVariable Long id) {
         newsService.update(newsCreateEditDto, id);

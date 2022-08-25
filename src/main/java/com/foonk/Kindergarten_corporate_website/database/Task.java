@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/*Сущность для задачи.*/
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

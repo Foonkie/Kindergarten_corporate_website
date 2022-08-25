@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
-
+/*Сервис по работе с документами*/
 @Service
 @RequiredArgsConstructor
 public class DocumentService {
@@ -30,7 +30,7 @@ public class DocumentService {
     private final DocumentReadMapper documentReadMapper;
     private final DocumentRepository documentRepository;
     private final DocumentCreateEditMapper documentCreateEditMapper;
-
+/*Метод загружающий файл на сервер*/
     @Transactional
     @SneakyThrows
     public void upload(String documentPath, InputStream content, String kind) {
@@ -40,7 +40,7 @@ public class DocumentService {
             Files.write(fullDocumentPath, content.readAllBytes(), CREATE, TRUNCATE_EXISTING);
         }
     }
-
+/*Метод, позволяющий скачать файл с сервера*/
     @Transactional
     @SneakyThrows
     public Optional<byte[]> get(String documentPath, String kind) {
@@ -50,7 +50,7 @@ public class DocumentService {
                 ? Optional.of(Files.readAllBytes(fullDocumentPath))
                 : Optional.empty();
     }
-
+/*Метод, позволяющий загрузить файл на сервер*/
     @Transactional
     @SneakyThrows
     public void uploadDocument(MultipartFile document, String kind) {
@@ -58,7 +58,7 @@ public class DocumentService {
             upload(document.getOriginalFilename(), document.getInputStream(), kind);
         }
     }
-
+/*Метод удаляющий файл с сервера*/
     @Transactional
     public boolean delete(Long id) {
         return documentRepository.findById(id)
@@ -69,7 +69,7 @@ public class DocumentService {
                 })
                 .orElse(false);
     }
-
+/*Метод создающий файл в системе*/
     @Transactional
     public DocumentReadDto create(DocumentCreateEditDto documentDto) {
         return Optional.of(documentDto)
@@ -81,7 +81,7 @@ public class DocumentService {
                 .map(documentReadMapper::map)
                 .orElseThrow();
     }
-
+/*Метод, находящий список файлов по их типу*/
     @Transactional
     public List<DocumentReadDto> findAllDocumentByKind(String kind) {
         documentRepository.findAllByKind(Kind.valueOf(kind));
@@ -90,7 +90,7 @@ public class DocumentService {
                 .map(documentReadMapper::map)
                 .collect(Collectors.toList());
     }
-
+/*Метод, находящий список файлов по их id*/
     @Transactional
     public Optional<DocumentReadDto> findDocumentById(Long id) {
         return documentRepository.findById(id).map(documentReadMapper::map);

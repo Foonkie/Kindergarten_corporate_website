@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDate;
+
+/*Класс с данными для условия для использования в запросах Querydsl, представляет из себя dto.*/
 @Getter
 @AllArgsConstructor
 @Value

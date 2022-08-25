@@ -4,13 +4,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/*Контроллер для первой страницы по результатам авторизации.*/
 @Controller
 public class DefaultController {
-    @GetMapping
-    public String defaultAfterLoginMainPage() {
-        return "redirect:/default";
-    }
-
+//    @GetMapping
+//    public String defaultAfterLoginMainPage() {
+//        return "redirect:/default";
+//    }
+/*Метод для первой страницы по результатам авторизации*/
     @GetMapping("/default")
     public String defaultAfterLogin() {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString();

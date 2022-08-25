@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
+/*REST контроллер*/
 @RestController
 @RequestMapping("/api/v1/documents")
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class DocumentRestController {
     private final ServletContext servletContext;
 
     private final String bucket = "C:\\Users\\Katyusha\\IdeaProjects\\Kindergarten_corporate_website\\documents";
-
+/*Метод возращающий картинку (Аватар)*/
     @RequestMapping(value = "/{kind}/{id}")
     public ResponseEntity<InputStreamResource> findAvatar(@PathVariable Long id, @PathVariable String kind) throws IOException {
 

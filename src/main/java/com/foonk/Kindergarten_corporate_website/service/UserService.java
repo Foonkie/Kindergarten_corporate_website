@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.foonk.Kindergarten_corporate_website.database.QUser.user;
-
+/*Сервис по работе с пользователями*/
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
     private final UserCreateEditMapper userCreateEditMapper;
     private final ImageService imageService;
 
-
+/*Метод, возвращающий страницу с пользователями, соответветствующими условиям фильтра*/
     public Page<UserReadDto> findAll(UserFilter filter, Pageable pageable) {
         var predicate = QPredicates.builder()
                 .add(filter.firstname(), user.firstname::containsIgnoreCase)
@@ -47,25 +47,25 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll(predicate, pageable)
                 .map(userReadMapper::map);
     }
-
+/*Метод, возвращающий всех пользователей в системе*/
     public List<UserReadDto> findAll() {
         return userRepository.findAll().stream()
                 .map(userReadMapper::map)
                 .toList();
     }
-
+/*Метод, находящий пользователя по id*/
     public Optional<UserReadDto> findById(Long id) {
         return userRepository.findById(id)
                 .map(userReadMapper::map);
     }
-
+/*Метод, возвращающий аватар пользователя по его id*/
     public Optional<byte[]> findAvatar(Long id) {
         return userRepository.findById(id)
                 .map(User::getImage)
                 .filter(StringUtils::hasText)
                 .flatMap(imageService::get);
     }
-
+/*Метод, создающий пользователя*/
     @Transactional
     public UserReadDto create(UserCreateEditDto userDto) {
         return Optional.of(userDto)
@@ -77,14 +77,14 @@ public class UserService implements UserDetailsService {
                 .map(userReadMapper::map)
                 .orElseThrow();
     }
-
+/*Метод, загружающий картинку на сервер*/
     @SneakyThrows
     private void uploadImage(MultipartFile image) {
         if (!image.isEmpty()) {
             imageService.upload(image.getOriginalFilename(), image.getInputStream());
         }
     }
-
+/*Метод, обновляющий пользователя по его id*/
     @Transactional
     public Optional<UserReadDto> update(Long id, UserCreateEditDto userDto) {
         return userRepository.findById(id)
@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
                 .map(userRepository::saveAndFlush)
                 .map(userReadMapper::map);
     }
-
+/*Метод для удаления пользователя*/
     @Transactional
     public boolean delete(Long id) {
         return userRepository.findById(id)
@@ -107,7 +107,7 @@ public class UserService implements UserDetailsService {
                 .orElse(false);
     }
 
-
+/*Метод, возвращающий UserDetails по имени пользователя*/
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)

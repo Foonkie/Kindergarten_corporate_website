@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+/*Сервис по работе с новостями*/
 @Service
 @RequiredArgsConstructor
 public class NewsService {
@@ -22,7 +22,7 @@ public class NewsService {
     private final NewsCreateEditMapper newsCreateEditMapper;
 
     private final NewsReadMapper newsReadMapper;
-
+/*Метод, создающий новость в системе*/
     @Transactional
     public NewsReadDto create(NewsCreateEditDto news) {
         return Optional.of(news)
@@ -31,17 +31,17 @@ public class NewsService {
                 .map(newsReadMapper::map)
                 .orElseThrow();
     }
-
+/*Метод, возвращающий страницу с новостями*/
     public Page<NewsReadDto> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable)
                 .map(newsReadMapper::map);
     }
-
+/*Метод находящий новость по ее id*/
     public Optional<NewsReadDto> findById(Long id) {
         return newsRepository.findById(id)
                 .map((newsReadMapper::map));
     }
-
+/*Метод, удаляющий новость из системы*/
     @Transactional
     public boolean delete(Long id) {
         return newsRepository.findById(id)
@@ -52,7 +52,7 @@ public class NewsService {
                 })
                 .orElse(false);
     }
-
+/*Метод, обновляющий новость*/
     public Optional<NewsReadDto> update(NewsCreateEditDto newsCreateEditDto, Long idNews) {
 
         return newsRepository.findById(idNews)

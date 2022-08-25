@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/*Сущность для документов.*/
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+/*Вспомогательный класс для составления набора условий в запросах при помощи Querydsl.*/
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QPredicates {
 

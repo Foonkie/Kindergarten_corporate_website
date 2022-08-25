@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
-
+/*Контроллер для управленеия задачами*/
 @Controller
 @AllArgsConstructor
 public class TaskController {
@@ -46,14 +46,14 @@ public class TaskController {
     private final UserService userService;
 
     private final SubTaskService subTaskService;
-
+/*Метод возращающий страницу с пользователями для постановки задачи сотруднику*/
     @GetMapping("/admin/tasks")
     public String tasksByUser(Model model) {
         List<UserReadDto> users = userService.findAll();
         model.addAttribute("users", users);
         return "user/admin_tasks";
     }
-
+/*Метод возращающий страницу с задачами для выбранного пользователя*/
     @GetMapping("/admin/tasks/{id1}")
     public String tasksByUserId(Model model, @PathVariable Long id1, Pageable pageable) {
 
@@ -62,11 +62,11 @@ public class TaskController {
         return "user/admin_tasks_id";
     }
 
-    @GetMapping("/admin/tasks/{id1}/{id2:\\d+}")
-    public String tasksByUserId(Model model, @PathVariable Long id1, @PathVariable Long id2, Pageable pageable) {
-        return "user/admin_tasks_id";
-    }
-
+//    @GetMapping("/admin/tasks/{id1}/{id2:\\d+}")
+//    public String tasksByUserId(Model model, @PathVariable Long id1, @PathVariable Long id2, Pageable pageable) {
+//        return "user/admin_tasks_id";
+//    }
+/*Метод для удаления задачи*/
     @GetMapping("/admin/tasks/{id1}/delete")
     public String deleteTask(@PathVariable Long id1){
         if(!taskService.delete(id1)){
@@ -74,7 +74,7 @@ public class TaskController {
         return "redirect:/admin/tasks/{id1}";
     }
 
-
+/*Метод для создания задачи*/
     @GetMapping("/admin/tasks/create")
     public String preСreate(Model model,TaskCreateEditDto taskCreateEditDto, Pageable pageable) {
         String modify="create";
@@ -90,14 +90,7 @@ public class TaskController {
         model.addAttribute("listForUpdate", listForUpdate);
         return "user/admin_tasks_id";
     }
-
-    @PostMapping("/admin/tasks/create")
-    public String create(Model model, TaskCreateEditDto taskCreateEditDto) {
-
-        TaskReadDto taskReadDto = taskService.taskCreation(taskCreateEditDto);
-
-        return "redirect:/admin/tasks";
-    }
+/*    Метод для редактирования задачи*/
     @GetMapping("/admin/tasks/{id1}/update")
     public String preUpdate(Model model, TaskCreateEditDto taskCreateEditDto, @PathVariable("id1") Long id1, Pageable pageable){
         String modify=id1.toString().concat("/update");
@@ -114,8 +107,15 @@ public class TaskController {
         model.addAttribute("taskCreateEditDto", taskCreateEditDtoAfterReading);
         return "user/admin_tasks_id";
     }
+/*    Метод для создания задачи*/
+    @PostMapping("/admin/tasks/create")
+    public String create(Model model, TaskCreateEditDto taskCreateEditDto) {
 
+        TaskReadDto taskReadDto = taskService.taskCreation(taskCreateEditDto);
 
+        return "redirect:/admin/tasks";
+    }
+/*    Метод для редактирования задачи*/
     @PostMapping("/admin/tasks/{id1}/update")
     public String update(TaskCreateEditDto taskCreateEditDto, @PathVariable("id1") Long id1){
         String link = taskService.fullTaskUpdate(taskCreateEditDto, id1);

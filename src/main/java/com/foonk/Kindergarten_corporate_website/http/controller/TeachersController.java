@@ -25,6 +25,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/*Класс для работы педагога с задачами, новостями, документами.*/
 @RequiredArgsConstructor
 @Controller
 public class TeachersController {
@@ -35,14 +36,14 @@ public class TeachersController {
     private final UserService userService;
     private final SubTaskService subTaskService;
 
-
+/*Метод позволяет скачивать файл*/
     @GetMapping("/documents/{kind}/{id}")
     public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind) {
         documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(), kind));
         return "redirect:/documents";
     }
 
-
+/*метод возвращает страницу педагога*/
     @GetMapping("/russian")
     public String russian(Model model, @ModelAttribute("show_news") NewsReadDto news, Pageable pageable, HttpSession httpSession) {
         if (!(pageable.getPageSize() == 20 && pageable.getPageNumber() == 0)) {
@@ -62,14 +63,14 @@ public class TeachersController {
         }
         return "user/russian";
     }
-
+/*Метод раскрывает выбранную новость*/
     @GetMapping("/news/{id}")
     public String showNewsForUser(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         newsService.findById(id)
                 .map(news -> redirectAttributes.addFlashAttribute("show_news", news));
         return "redirect:/russian";
     }
-
+/*Метод возвращает страницу со списком задач пользователя*/
     @GetMapping("/tasks")
     public String tasks(Model model, @ModelAttribute("subTasks") ArrayList<SubTaskReadDto> subTasks, TaskCreateEditDto taskCreateEditDto, HttpSession httpSession, Pageable pageable) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -91,14 +92,14 @@ public class TeachersController {
         }
         return "user/tasks";
     }
-
+/*Метод ищет подзадачи у выюранной задачи и возращает страницу задач с подзадачами и их статусом*/
     @GetMapping("/tasks/{id}")
     public String tasks(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         ArrayList<SubTaskReadDto> subtasks = (ArrayList<SubTaskReadDto>) subTaskService.findByTaskId(id);
         redirectAttributes.addFlashAttribute("subTasks", subtasks);
         return "redirect:/tasks";
     }
-
+/*Метод возвращает страницу с документами*/
     @GetMapping("/documents")
     public String documents(Model model) {
         Kind[] values = Kind.values();
@@ -112,7 +113,7 @@ public class TeachersController {
         model.addAttribute("instruction", documentService.findAllDocumentByKind("INSTRUCTION"));
         return "user/documents";
     }
-
+/*Метод позволяет сообщить статусы подзадач*/
     @PostMapping("/tasks")
     public String updateStatus(Model model, TaskCreateEditDto taskCreateEditDto, HttpSession httpSession) {
         ArrayList<SubTaskReadDto> subTasks = (ArrayList<SubTaskReadDto>) httpSession.getAttribute("subTasks");

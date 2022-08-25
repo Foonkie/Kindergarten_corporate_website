@@ -5,6 +5,7 @@ import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
 
+/*Dto для операций создания или изменения сущности News.*/
 @Value
 public class NewsCreateEditDto {
     @NotBlank(groups = CreateAction.class)

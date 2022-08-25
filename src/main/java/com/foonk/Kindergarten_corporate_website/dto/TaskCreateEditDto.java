@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/*Dto для операций создания или изменения сущности Task.*/
 public final class TaskCreateEditDto {
 
    private final List<SubTaskCreateEditDto> subTaskCreateEditDtos=new ArrayList(Arrays.asList(new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false)));

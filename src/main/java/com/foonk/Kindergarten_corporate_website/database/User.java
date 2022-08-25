@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/*Сущность для пользователя.*/
 @Data
 @EqualsAndHashCode(of = "username")
 @ToString(exclude = "tasks")

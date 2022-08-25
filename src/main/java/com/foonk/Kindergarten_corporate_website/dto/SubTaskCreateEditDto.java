@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
+/*Dto для операций создания или изменения сущности SubTask.*/
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor

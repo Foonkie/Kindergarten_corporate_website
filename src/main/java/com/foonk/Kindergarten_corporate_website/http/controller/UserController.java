@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/*Контроллер для работы с пользователями*/
 @Slf4j
 @Controller
 @RequestMapping("/users")
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
-
+/*Метод, который возвращает страницу со всеми пользователями в системе*/
     @GetMapping
     public String findAll(Model model, UserFilter userFilter, Pageable pageable) {
         Page<UserReadDto> page = userService.findAll(userFilter, pageable);
@@ -35,7 +36,7 @@ public class UserController {
 //        model.addAttribute("users", userService.findAll(filter));
         return "user/users";
     }
-
+/*Метод возвращающий страницу с данными пользовател*/
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
         return userService.findById(id)
@@ -46,14 +47,14 @@ public class UserController {
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-
+/*    Метод возвращающий страницу регистрации пользователя*/
     @GetMapping("/registration")
     public String registration(Model model, @ModelAttribute("user") UserCreateEditDto user) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "user/registration";
     }
-
+/*Метод создает пользователя в системе и переводит на страничку логин*/
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String create(@ModelAttribute @Validated UserCreateEditDto user,
@@ -68,7 +69,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-
+/*Метод обновляет пользователя и возвращает страницу с данными обновленного пользователя*/
     //    @PutMapping("/{id}")
     @PostMapping("/{id}/update")
     public String update(@PathVariable("id") Long id, @ModelAttribute @Validated UserCreateEditDto user) {
@@ -76,7 +77,7 @@ public class UserController {
                 .map(it -> "redirect:/users/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-
+/*Метод удалякт пользователя из системы и возвращает список пользователей*/
     //    @DeleteMapping("/{id}")
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {

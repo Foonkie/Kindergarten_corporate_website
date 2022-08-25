@@ -7,6 +7,7 @@ import lombok.Value;
 import java.time.LocalDate;
 import java.util.List;
 
+/*Dto для операций чтения сущности User из базы.*/
 @Value
 public class UserReadDto {
     Long id;

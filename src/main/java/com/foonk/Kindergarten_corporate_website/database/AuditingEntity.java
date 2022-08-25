@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.Instant;
 
+/*Абстрактный Класс для расширения им сущностей, которым необходим аудит.*/
 @Getter
 @Setter
 @MappedSuperclass
@@ -18,3 +19,4 @@ public abstract class AuditingEntity<T extends Serializable> implements BaseEnti
     @CreatedDate
     private Instant createdAt;
 }
+

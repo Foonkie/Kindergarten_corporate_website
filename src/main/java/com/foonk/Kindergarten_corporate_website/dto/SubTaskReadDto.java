@@ -8,6 +8,7 @@ import lombok.Value;
 import javax.validation.constraints.NotBlank;
 import java.util.Comparator;
 
+/*Dto для операций чтения сущности SubTask из базы.*/
 @Value
     public class SubTaskReadDto {
         private Long id;

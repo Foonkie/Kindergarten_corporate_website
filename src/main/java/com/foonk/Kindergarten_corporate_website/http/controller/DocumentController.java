@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Arrays;
 import java.util.List;
 
+/*Контроллер для работы администратора с документами.*/
 @Controller
 @RequiredArgsConstructor
 public class DocumentController {
     private final DocumentService documentService;
 
+/*    Метод возращающи все документы по группам*/
     @GetMapping("/admin/documents")
     public String admin_documents(Model model) {
         Kind[] values = Kind.values();
@@ -31,28 +33,28 @@ public class DocumentController {
         return "user/admin_documents";
     }
 
-    @GetMapping("/admin/russian")
-    public String findAllByKind(Model model) {
-        model.addAttribute("ktp", documentService.findAllDocumentByKind("KTP"));
-        model.addAttribute("work_projects", documentService.findAllDocumentByKind("WORK_PROJECTS"));
-        model.addAttribute("schedule", documentService.findAllDocumentByKind("SCHEDULE"));
-        model.addAttribute("event", documentService.findAllDocumentByKind("EVENT"));
-        model.addAttribute("instruction", documentService.findAllDocumentByKind("INSTRUCTION"));
-        return "user/admin_russian";
-    }
+//    @GetMapping("/admin/russian")
+//    public String findAllByKind(Model model) {
+//        model.addAttribute("ktp", documentService.findAllDocumentByKind("KTP"));
+//        model.addAttribute("work_projects", documentService.findAllDocumentByKind("WORK_PROJECTS"));
+//        model.addAttribute("schedule", documentService.findAllDocumentByKind("SCHEDULE"));
+//        model.addAttribute("event", documentService.findAllDocumentByKind("EVENT"));
+//        model.addAttribute("instruction", documentService.findAllDocumentByKind("INSTRUCTION"));
+//        return "user/admin_russian";
+//    }
 
 /*    @GetMapping("/admin/documents/{kind}/{id}")
     public String getDocument(Model model, @PathVariable Long id, @PathVariable String kind) {
         documentService.findDocumentById(id).map(document -> documentService.get(document.getDocument(), kind));
         return "redirect:/admin/documents";
     }*/
-
+/*Метод для создания документа*/
     @PostMapping("/admin/documents/create")
     public String admin_documents_create(Model model, DocumentCreateEditDto dto) {
         documentService.create(dto);
         return "redirect:/admin/documents";
     }
-
+/*Метод для удаления документов*/
     @PostMapping("/admin/documents/delete")
     public String admin_documents_delete(Model model, Long idDocument) {
         documentService.delete(idDocument);

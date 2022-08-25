@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+/*Обертка для работы с данными в страничном режиме. Разделяет данные на основную информацию, находящуюся в List<T> content и метаинформацию во вложенном классе Metadata*/
 @Value
 public class PageResponse <T> {
     List<T> content;

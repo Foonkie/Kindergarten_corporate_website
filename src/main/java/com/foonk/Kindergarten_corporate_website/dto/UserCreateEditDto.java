@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+
+/*Dto для операций создания или изменения сущности User.*/
 @Value
 @FieldNameConstants
 public class UserCreateEditDto {

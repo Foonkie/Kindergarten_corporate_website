@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*Dto для операций чтения сущности Task из базы.*/
 @Value
 @AllArgsConstructor
 public class TaskReadDto {

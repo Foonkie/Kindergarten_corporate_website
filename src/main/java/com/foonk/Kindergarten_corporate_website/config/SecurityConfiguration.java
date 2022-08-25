@@ -13,7 +13,7 @@ import static com.foonk.Kindergarten_corporate_website.database.Role.ADMIN;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+/*Конфигурирование авторизации и аунтификации. Метод configure отвечает за конфигурацию процесса авторизации и аунтификации. Метод passwordEncoder отвечает за преобразование пароля в зашифрованное значение.*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
