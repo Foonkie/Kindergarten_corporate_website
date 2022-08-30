@@ -1,12 +1,14 @@
 package com.foonk.Kindergarten_corporate_website.dto;
 
 import com.foonk.Kindergarten_corporate_website.database.Type;
+import com.foonk.Kindergarten_corporate_website.validation.EmptySubTaskList;
 import com.foonk.Kindergarten_corporate_website.validation.group.CreateAction;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,19 +17,17 @@ import java.util.List;
 
 /*Dto для операций создания или изменения сущности Task.*/
 public final class TaskCreateEditDto {
-
+@EmptySubTaskList
    private final List<SubTaskCreateEditDto> subTaskCreateEditDtos=new ArrayList(Arrays.asList(new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false), new SubTaskCreateEditDto("", null, false)));
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(groups = CreateAction.class)
     private final Type type;
 
-    @NotBlank(groups = CreateAction.class)
+    @NotBlank (message = "Заполните название задачи!")
     private final String task_header;
-
+    @Future(message = "Время для выполнения задачи уже истекло!")
     private final LocalDateTime endTime;
 
-    @NotBlank(groups = CreateAction.class)
     private final Long userId;
 
     public TaskCreateEditDto(@NotBlank(groups = CreateAction.class) Type type, @NotBlank(groups = CreateAction.class) String task_header, LocalDateTime endTime, @NotBlank(groups = CreateAction.class) Long userId) {

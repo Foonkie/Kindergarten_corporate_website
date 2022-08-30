@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 /*Контроллер для первой страницы по результатам авторизации.*/
 @Controller
 public class DefaultController {
-//    @GetMapping
-//    public String defaultAfterLoginMainPage() {
-//        return "redirect:/default";
-//    }
+/*Метод направляет на контроллер выбора экрана пользователя*/
+    @GetMapping
+    public String defaultAfterLoginMainPage() {
+        return "redirect:/default";
+    }
 /*Метод для первой страницы по результатам авторизации*/
     @GetMapping("/default")
     public String defaultAfterLogin() {

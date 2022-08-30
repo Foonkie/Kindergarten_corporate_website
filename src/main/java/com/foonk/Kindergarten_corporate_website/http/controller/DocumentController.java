@@ -6,10 +6,15 @@ import com.foonk.Kindergarten_corporate_website.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +55,14 @@ public class DocumentController {
     }*/
 /*Метод для создания документа*/
     @PostMapping("/admin/documents/create")
-    public String admin_documents_create(Model model, DocumentCreateEditDto dto) {
+    public String admin_documents_create(Model model, @ModelAttribute @Validated DocumentCreateEditDto dto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (dto.getDocument().getSize()==0){
+            bindingResult.rejectValue("document", "Добавьте документ!", "Добавьте документ!");
+        }
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/admin/documents";
+        }
         documentService.create(dto);
         return "redirect:/admin/documents";
     }

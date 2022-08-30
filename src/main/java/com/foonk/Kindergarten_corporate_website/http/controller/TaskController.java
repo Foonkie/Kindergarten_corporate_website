@@ -6,6 +6,7 @@ import com.foonk.Kindergarten_corporate_website.dto.*;
 import com.foonk.Kindergarten_corporate_website.service.SubTaskService;
 import com.foonk.Kindergarten_corporate_website.service.TaskService;
 import com.foonk.Kindergarten_corporate_website.service.UserService;
+import com.foonk.Kindergarten_corporate_website.validation.group.CreateAction;
 import liquibase.pro.packaged.A;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,7 +80,7 @@ public class TaskController {
 
 /*Метод для создания задачи*/
     @GetMapping("/admin/tasks/create")
-    public String preСreate(Model model,TaskCreateEditDto taskCreateEditDto, Pageable pageable) {
+    public String preСreate(Model model, TaskCreateEditDto taskCreateEditDto, Pageable pageable) {
         String modify="create";
         model.addAttribute("modify", modify);
         List<UserReadDto> users = userService.findAll();
@@ -109,16 +113,22 @@ public class TaskController {
     }
 /*    Метод для создания задачи*/
     @PostMapping("/admin/tasks/create")
-    public String create(Model model, TaskCreateEditDto taskCreateEditDto) {
-
+    public String create(Model model,@Validated TaskCreateEditDto taskCreateEditDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/admin/tasks/create";}
         TaskReadDto taskReadDto = taskService.taskCreation(taskCreateEditDto);
 
         return "redirect:/admin/tasks";
     }
 /*    Метод для редактирования задачи*/
     @PostMapping("/admin/tasks/{id1}/update")
-    public String update(TaskCreateEditDto taskCreateEditDto, @PathVariable("id1") Long id1){
+    public String update(@Validated TaskCreateEditDto taskCreateEditDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable("id1") Long id1){
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/admin/tasks/{id1}/update";}
         String link = taskService.fullTaskUpdate(taskCreateEditDto, id1);
+
         return link;
     }
 

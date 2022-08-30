@@ -37,11 +37,5 @@
             <a th:href="@{'/api/v1/documents/INSTRUCTION/' + ${document.id}}" th:text="${document.document}">Instruction</a>
         </div>
     </div>
-    <div th:if="${!general_works.isEmpty()}">
-        <span>GENERAL_WORKS:</span>
-        <div th:each="document: ${general_works}">
-            <a th:href="@{'/api/v1/documents/GENERAL_WORKS/' + ${document.id}}" th:text="${document.id}">General works</a>
-        </div>
-    </div>
 </body>
 </html>

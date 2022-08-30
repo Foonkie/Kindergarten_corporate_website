@@ -10,7 +10,6 @@
 <form th:action="@{/admin/documents/create}" enctype="multipart/form-data" method="post">
       <label for="document"> Тип:
 <select id="document" name="kind">
-    <option value="0">Выберите вид документа</option>
     <option th:each="kind : ${kinds}"
             th:value="${kind}"
             th:text="${kind.getName()}">Kind</option>
@@ -21,6 +20,9 @@
     </label><br>
 <button  type="submit">Добавить
 </button>
+    <div th:if="${errors}">
+        <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+    </div>
 </form>
 <form th:action="@{/admin/documents/delete}" method="post">
     <br>

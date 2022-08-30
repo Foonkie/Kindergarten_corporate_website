@@ -15,6 +15,9 @@
     <button type="submit">Создать новость</button>
 </form>
 
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
 <form method="post" action="/admin/news/edit">
 <div th:if="${news.content}" th:each="piece:${news.content}">
     <input type="radio" name="id"  th:value="${piece.id}">

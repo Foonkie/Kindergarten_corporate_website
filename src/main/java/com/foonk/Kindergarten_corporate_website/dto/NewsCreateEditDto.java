@@ -8,9 +8,9 @@ import javax.validation.constraints.NotBlank;
 /*Dto для операций создания или изменения сущности News.*/
 @Value
 public class NewsCreateEditDto {
-    @NotBlank(groups = CreateAction.class)
+    @NotBlank (message = "Заполните заголовок")
     private String header;
 
-    @NotBlank(groups = CreateAction.class)
+    @NotBlank (message = "Заполните текст")
     private String body;
 }

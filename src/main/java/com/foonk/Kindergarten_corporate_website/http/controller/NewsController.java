@@ -4,6 +4,7 @@ import com.foonk.Kindergarten_corporate_website.dto.NewsCreateEditDto;
 import com.foonk.Kindergarten_corporate_website.dto.NewsReadDto;
 import com.foonk.Kindergarten_corporate_website.dto.PageResponse;
 import com.foonk.Kindergarten_corporate_website.service.NewsService;
+import liquibase.pro.packaged.B;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -71,7 +73,11 @@ public class NewsController {
 
 /*Метод для создания новости*/
     @PostMapping("/admin/news")
-    public String create(@ModelAttribute @Validated NewsCreateEditDto news) {
+    public String create(@ModelAttribute @Validated NewsCreateEditDto news, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        return "redirect:/admin/news";
+        }
         newsService.create(news);
         return "redirect:/admin/news";
     }
@@ -88,10 +94,13 @@ public class NewsController {
     }
 /*Метод для редактирования новости*/
     @PostMapping("/admin/news/edit/{id}")
-    public String admin_news_edit(NewsCreateEditDto newsCreateEditDto, @PathVariable Long id) {
-        newsService.update(newsCreateEditDto, id);
-        return "redirect:/admin/news";
+    public String admin_news_edit(@Validated NewsCreateEditDto newsCreateEditDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable Long id) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/admin/news/edit/{id}";}
+            newsService.update(newsCreateEditDto, id);
+            return "redirect:/admin/news";
+        }
     }
 
 
-}
