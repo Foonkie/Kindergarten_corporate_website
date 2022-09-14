@@ -1,5 +1,6 @@
 package com.foonk.Kindergarten_corporate_website.service;
 
+import com.foonk.Kindergarten_corporate_website.database.SubTask;
 import com.foonk.Kindergarten_corporate_website.database.repository.SubTaskRepository;
 import com.foonk.Kindergarten_corporate_website.database.repository.TaskRepository;
 import com.foonk.Kindergarten_corporate_website.dto.SubTaskCreateEditDto;
@@ -89,7 +90,7 @@ public class TaskService {
                     subTaskRepository.delete(subTask);
                     subTaskRepository.flush();
                 });
-        List<String> list1 = subTaskRepository.findAllByTask_Id(taskId).stream().map(subtask -> subtask.getSubtask()).toList();
+        List<String> list1 = subTaskRepository.findAllByTask_Id(taskId).stream().map(SubTask::getSubtask).toList();
         List<SubTaskReadDto> subTaskReadDtos = new ArrayList<>();
         for (SubTaskCreateEditDto dto : subTaskCreateEditDtos) {
             if (list1.contains(dto.getSubtask())) {
@@ -102,7 +103,7 @@ public class TaskService {
     }
 /*Метод подгатавливает лист подзадач для обновления*/
     public List<String> getSubtaskListForUpdate(TaskReadDto taskReadDto) {
-        List<String> listForUpdate = taskReadDto.getSubTaskReadDtos().stream().map(subTaskReadDto -> subTaskReadDto.getSubtask()).toList();
+        List<String> listForUpdate = taskReadDto.getSubTaskReadDtos().stream().map(SubTaskReadDto::getSubtask).toList();
         int size = taskReadDto.getSubTaskReadDtos().size();
         for (int i = 0; i < 5-size; i++) {
             listForUpdate.add("");

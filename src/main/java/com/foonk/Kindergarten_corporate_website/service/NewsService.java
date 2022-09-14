@@ -26,7 +26,7 @@ public class NewsService {
     @Transactional
     public NewsReadDto create(NewsCreateEditDto news) {
         return Optional.of(news)
-                .map(dto -> newsCreateEditMapper.map(dto))
+                .map(newsCreateEditMapper::map)
                 .map(newsRepository::save)
                 .map(newsReadMapper::map)
                 .orElseThrow();

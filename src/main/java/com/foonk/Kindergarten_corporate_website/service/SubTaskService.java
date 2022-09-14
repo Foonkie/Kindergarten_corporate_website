@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SubTaskService {
     private final SubTaskCreateEditMapper subTaskCreateEditMapper;
+
     private final SubTaskReadMapper subTaskReadMapper;
 
     private final SubTaskRepository subTaskRepository;
@@ -34,7 +35,10 @@ public class SubTaskService {
     }
 /*Метод, находящий список подзадач по id задачи*/
     public List<SubTaskReadDto> findByTaskId(Long id) {
-        return subTaskRepository.findAllByTask_Id(id).stream().map(subTaskReadMapper::map).sorted(new SubTaskReadDto.SubTaskReadDtoComparator()).collect(Collectors.toList());
+        return subTaskRepository.findAllByTask_Id(id).stream()
+                .map(subTaskReadMapper::map)
+                .sorted(new SubTaskReadDto.SubTaskReadDtoComparator())
+                .collect(Collectors.toList());
     }
 
 //    @Transactional
